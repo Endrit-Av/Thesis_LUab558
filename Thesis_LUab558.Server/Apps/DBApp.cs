@@ -1,0 +1,716 @@
+﻿//using Npgsql;
+
+//namespace Thesis_LUab558.Server.Apps
+//{
+//    public class DBApp
+//    {
+//        static void Main(string[] args)
+//        {
+//            //string masterConnectionString = "Host=localhost;Username=postgres;Password=180499;Database=postgres";
+//            string databaseName = "LUab558_Thesis";
+//            string newDbConnectionString = $"Host=localhost;Username=postgres;Password=180499;Database={databaseName}";
+//            string schemaName = "633867";
+
+//            try
+//            {
+//                // Datenbank einmalig erstellen - diesen Teil nach dem ersten Durchlauf auskommentieren
+
+//                //using (var connection = new NpgsqlConnection(masterConnectionString))
+//                //{
+//                //    connection.Open();
+
+//                //    Console.WriteLine($"Datenbank '{databaseName}' löschen, falls sie existiert...");
+//                //    string dropDbQuery = $@"DROP DATABASE IF EXISTS ""{databaseName}"";";
+//                //    using (var dropDbCommand = new NpgsqlCommand(dropDbQuery, connection))
+//                //    {
+//                //        dropDbCommand.ExecuteNonQuery();
+//                //        Console.WriteLine($"Datenbank '{databaseName}' wurde gelöscht (falls vorhanden).");
+//                //    }
+
+//                //    Console.WriteLine($"Erstelle Datenbank '{databaseName}'...");
+//                //    string createDbQuery = $@"CREATE DATABASE ""{databaseName}"";";
+//                //    using (var createDbCommand = new NpgsqlCommand(createDbQuery, connection))
+//                //    {
+//                //        createDbCommand.ExecuteNonQuery();
+//                //        Console.WriteLine($"Datenbank '{databaseName}' wurde erfolgreich erstellt.");
+//                //    }
+//                //}
+
+
+//                using (var dbConnection = new NpgsqlConnection(newDbConnectionString))
+//                {
+//                    dbConnection.Open();
+
+//                    // Schema erstellen
+//                    Console.WriteLine($"Erstelle Schema '{schemaName}'...");
+//                    string createSchemaQuery = $@"CREATE SCHEMA IF NOT EXISTS ""{schemaName}"";";
+//                    ExecuteNonQuery(dbConnection, createSchemaQuery, $"Schema '{schemaName}' erstellt.");
+
+//                    // Tabellen löschen
+//                    Console.WriteLine("Lösche Tabellen...");
+//                    DeleteTables(dbConnection, schemaName);
+
+//                    // Tabellen erstellen (falls nicht vorhanden)
+//                    Console.WriteLine("Erstelle Tabellen...");
+//                    CreateTables(dbConnection, schemaName);
+
+//                    // Daten in die Tabelle 'users' einfügen
+//                    Console.WriteLine("Füge Benutzer in die Tabelle 'users' ein...");
+//                    InsertUsers(dbConnection, schemaName);
+
+//                    // Daten in die Tabelle 'products' einfügen
+//                    Console.WriteLine("Füge Produkte in die Tabelle 'products' ein...");
+//                    InsertProducts(dbConnection, schemaName);
+
+//                    // Daten in die Tabelle 'reviews' einfügen
+//                    Console.WriteLine("Füge Bewertungen in die Tabelle 'reviews' ein...");
+//                    InsertRatings(dbConnection, schemaName);
+
+//                    // Bilder in die Tabelle 'images' einfügen
+//                    Console.WriteLine("Füge Bilder ind die Tabelle 'images' ein...");
+//                    InsertProductImages(dbConnection, schemaName);
+//                }
+
+//                Console.WriteLine("Alle Tabellen wurden erfolgreich erstellt.");
+//            }
+//            catch (Exception ex)
+//            {
+//                Console.WriteLine($"Fehler: {ex.Message}");
+//            }
+//        }
+
+//        static void DeleteTables(NpgsqlConnection connection, string schemaName)
+//        {
+//            // Tabellen in umgekehrter Reihenfolge löschen (relationale Abhängigkeiten beachten)
+//            string[] dropTableQueries = {
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""invoice_items"";",
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""invoice_details"";",
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""wishlist"";",
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""cart"";",
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""reviews"";",
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""images"";",
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""products"";",
+//                        $@"DROP TABLE IF EXISTS ""{schemaName}"".""users"";"
+//                    };
+//            foreach (var query in dropTableQueries)
+//            {
+//                ExecuteNonQuery(connection, query, "Tabelle gelöscht.");
+//            }
+//        }
+
+//        static void CreateTables(NpgsqlConnection connection, string schemaName)
+//        {
+//            // 1. Tabelle: users
+//            string createUsersTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""users"" (
+//                        user_id SERIAL PRIMARY KEY,
+//                        first_name VARCHAR(50),
+//                        last_name VARCHAR(50),
+//                        street VARCHAR(100),
+//                        house_number VARCHAR(10),
+//                        city VARCHAR(50),
+//                        postcode INTEGER,
+//                        date_of_birth VARCHAR(20) NOT NULL,
+//                        email VARCHAR(100) UNIQUE NOT NULL,
+//                        password VARCHAR(100),
+//                        telephone VARCHAR(20),
+//                        is_employee BOOLEAN NOT NULL DEFAULT false,
+//                        account_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//                    );";
+//            ExecuteNonQuery(connection, createUsersTable, "Tabelle 'users' erstellt.");
+
+//            // 2. Tabelle: products
+//            string createProductsTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""products"" (
+//                        product_id SERIAL PRIMARY KEY,
+//                        brand VARCHAR(100) NOT NULL,
+//                        category VARCHAR(50) NOT NULL,
+//                        product_name VARCHAR(100) NOT NULL,
+//                        price DOUBLE PRECISION NOT NULL,
+//                        physical_memory INT,
+//                        ram INT,
+//                        color VARCHAR(16) NOT NULL,
+//                        stock INT NOT NULL,
+//                        description TEXT,
+//                        operating_system VARCHAR(30),
+//                        general_keyword VARCHAR(30) NOT NULL,
+//                        added_to_database_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//                    );";
+//            ExecuteNonQuery(connection, createProductsTable, "Tabelle 'products' erstellt.");
+
+//            // 3. Tabelle: wishlist
+//            string createWishlistTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""wishlist"" (
+//                        wishlist_id SERIAL PRIMARY KEY,
+//                        user_id INT REFERENCES ""{schemaName}"".""users""(user_id),
+//                        product_id INT REFERENCES ""{schemaName}"".""products""(product_id),
+//                        added_to_wishlist_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//                    );";
+//            ExecuteNonQuery(connection, createWishlistTable, "Tabelle 'wishlist' erstellt.");
+
+//            // 4. Tabelle: reviews
+//            string createReviewsTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""reviews"" (
+//                        review_id SERIAL PRIMARY KEY,
+//                        user_id INT REFERENCES ""{schemaName}"".""users""(user_id),
+//                        product_id INT REFERENCES ""{schemaName}"".""products""(product_id),
+//                        rating INT CHECK (rating BETWEEN 1 AND 5),
+//                        review_text TEXT,
+//                        review_date VARCHAR(20) NOT NULL,
+//                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//                    );";
+//            ExecuteNonQuery(connection, createReviewsTable, "Tabelle 'reviews' erstellt.");
+
+//            // 5. Tabelle: cart
+//            string createCartTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""cart"" (
+//                        cart_id SERIAL PRIMARY KEY,
+//                        user_id INT REFERENCES ""{schemaName}"".""users""(user_id),
+//                        product_id INT REFERENCES ""{schemaName}"".""products""(product_id),
+//                        quantity INT DEFAULT 1,
+//                        added_to_cart_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//                    );";
+//            ExecuteNonQuery(connection, createCartTable, "Tabelle 'cart' erstellt.");
+
+//            // 6. Tabelle: images
+//            string createImagesTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""images"" (
+//                        image_id SERIAL PRIMARY KEY,
+//                        product_id INT REFERENCES ""{schemaName}"".""products""(product_id),
+//                        image_byte BYTEA NOT NULL
+//                    );";
+//            ExecuteNonQuery(connection, createImagesTable, "Tabelle 'images' erstellt.");
+
+//            // 7. Tabelle: invoice_details
+//            string createInvoiceDetailsTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""invoice_details"" (
+//                        invoice_id SERIAL PRIMARY KEY,
+//                        user_id INT REFERENCES ""{schemaName}"".""users""(user_id),
+//                        invoice_date VARCHAR(20) NOT NULL,
+//                        total_amount NUMERIC(10, 2) NOT NULL,
+//                        payment_method VARCHAR(50) NOT NULL,
+//                        payment_status VARCHAR(20) NOT NULL,
+//                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//                    );";
+//            ExecuteNonQuery(connection, createInvoiceDetailsTable, "Tabelle 'invoice_details' erstellt.");
+
+//            // 8. Tabelle: invoice_items
+//            string createInvoiceItemsTable = $@"
+//                    CREATE TABLE ""{schemaName}"".""invoice_items"" (
+//                        item_id SERIAL PRIMARY KEY,
+//                        invoice_id INT REFERENCES ""{schemaName}"".""invoice_details""(invoice_id),
+//                        product_id INT REFERENCES ""{schemaName}"".""products""(product_id),
+//                        quantity INT NOT NULL,
+//                        price_per_unit NUMERIC(10, 2) NOT NULL,
+//                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//                    );";
+//            ExecuteNonQuery(connection, createInvoiceItemsTable, "Tabelle 'invoice_items' erstellt.");
+//        }
+
+//        static void InsertUsers(NpgsqlConnection connection, string schemaName)
+//        {
+//            // Arrays mit Testdaten
+//            var firstNames = new List<string> { "Florian", "Endrit", "Florian", "Vanessa", "Max", "Anna", "Michael", "Sophie", "Patrick", "Laura", "David", "Lisa", "Paul" };
+//            var lastNames = new List<string> { "Straßner", "Avdulli", "Neumann", "Müller", "Schmidt", "Fischer", "Meyers", "Star", "Star", "Hoffmann", "Meyer", "Koch", "Wasser" };
+//            var streets = new List<string> { "Im Ring", "Im Ring", "Im Ring", "Mutterstraße", "Hauptstraße", "Seestraße", "Waldweg", "Rosenweg", "An der Blies", "Ernst-Boehe-Straße", "Straßenstraße", "Straußenstraße", "Teststraße" };
+//            var houseNumbers = new List<int> { 47, 45, 45, 45, 21, 7, 12, 34, 9, 27, 14, 5, 19 };
+//            var cities = new List<string> { "Germersheim", "Germersheim", "Germersheim", "Mutterstadt", "Mutterstadt", "Musterstadt", "Waldstadt", "Blumenstadt", "Flussstadt", "Sonnstadt", "Baumstadt", "Waldstadt", "Feldstadt" };
+//            var postcodes = new List<int> { 76087, 76087, 76087, 76087, 12345, 76087, 98765, 45678, 56789, 98765, 34567, 23456, 76543 };
+//            var datesOfBirth = new List<string> { "1998-12-03", "1998-12-03", "1998-12-03", "1976-11-03", "1985-07-15", "1990-04-25", "1982-09-10", "1994-02-18", "1988-06-22", "1997-11-30", "1991-03-05", "1996-08-12", "1989-12-28" };
+//            var emails = new List<string> { "straßner@test.de", "endrit.avdulli@studmail.hwg-lu.de", "neumann_m@hotmail.de", "vanessa.mueller@notexisting.de", "max.schmidt@notexisting.com", "anna.fischer@notexisting.com", "michael.meyers@notexisting.com", "sophie.star@notexisting.com", "patrick.star@notexisting.com", "laura.hoffmann@notexisting.com", "david.meyer@notexisting.com", "lisa.koch@notexisting.com", "paul.wasser@notexisting.com" };
+//            var telephones = new List<string> { "062188888", "062188888", "062188888", "062188888", "0123456789", "0987654321", "0765432109", "0345678901", "0456789012", "0897612345", "0567890123", "0432167890", "0765432109" };
+//            var isEmployees = new List<bool> { true, true, true, false, false, false, false, false, false, false, false, false, false };
+
+//            for (int i = 0; i < firstNames.Count; i++)
+//            {
+//                string insertUserQuery = $@"
+//                INSERT INTO ""{schemaName}"".""users"" (first_name, last_name, street, house_number, city, postcode, date_of_birth, email, password, telephone, is_employee)
+//                VALUES (@first_name, @last_name, @street, @house_number, @city, @postcode, @date_of_birth, @email, @password, @telephone, @is_employee);";
+
+//                using (var command = new NpgsqlCommand(insertUserQuery, connection))
+//                {
+//                    command.Parameters.AddWithValue("first_name", firstNames[i]);
+//                    command.Parameters.AddWithValue("last_name", lastNames[i]);
+//                    command.Parameters.AddWithValue("street", streets[i]);
+//                    command.Parameters.AddWithValue("house_number", houseNumbers[i]);
+//                    command.Parameters.AddWithValue("city", cities[i]);
+//                    command.Parameters.AddWithValue("postcode", postcodes[i]);
+//                    command.Parameters.AddWithValue("date_of_birth", datesOfBirth[i]);
+//                    command.Parameters.AddWithValue("email", emails[i]);
+//                    command.Parameters.AddWithValue("password", $"{firstNames[i]}12!");
+//                    command.Parameters.AddWithValue("telephone", telephones[i]);
+//                    command.Parameters.AddWithValue("is_employee", isEmployees[i]);
+
+//                    command.ExecuteNonQuery();
+//                    Console.WriteLine($"Benutzer {firstNames[i]} {lastNames[i]} erfolgreich eingefügt.");
+//                }
+//            }
+//        }
+
+//        public static void InsertProducts(NpgsqlConnection connection, string schemaName)
+//        {
+//            Console.WriteLine("Füge Produkte in die Tabelle 'products' ein...");
+//            InsertAppleProducts(connection, schemaName);
+//            InsertSamsungProducts(connection, schemaName);
+//            InsertHuaweiProducts(connection, schemaName);
+//            Console.WriteLine("Alle Produkte wurden erfolgreich eingefügt.");
+//        }
+
+//        private static void InsertAppleProducts(NpgsqlConnection connection, string schemaName)
+//        {
+//            InsertiPhone14Pro(connection, schemaName);
+//            InsertiPhone14ProMax(connection, schemaName);
+//            InsertAirPodsPro(connection, schemaName);
+//            InsertMacBookPro(connection, schemaName);
+//            InsertMacBookAir(connection, schemaName);
+//            InsertiPad(connection, schemaName);
+//            InsertiPadAir(connection, schemaName);
+//            Console.WriteLine("Apple-Produkte erfolgreich eingefügt.");
+//        }
+
+//        private static void InsertSamsungProducts(NpgsqlConnection connection, string schemaName)
+//        {
+//            InsertGalaxyZFold5(connection, schemaName);
+//            InsertGalaxyTabA8(connection, schemaName);
+//            InsertGalaxyBook3(connection, schemaName);
+//            Console.WriteLine("Samsung-Produkte erfolgreich eingefügt.");
+//        }
+
+//        private static void InsertHuaweiProducts(NpgsqlConnection connection, string schemaName)
+//        {
+//            InsertHuaweiMate50Pro(connection, schemaName);
+//            InsertHuaweiP60Pro(connection, schemaName);
+//            InsertHuaweiMateBook16s(connection, schemaName);
+//            InsertHuaweiMatePad(connection, schemaName);
+//            Console.WriteLine("Huawei-Produkte erfolgreich eingefügt.");
+//        }
+
+//        // Apple-Produkte
+//        private static void InsertiPhone14Pro(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 128, 256 };
+//            string[] colors = { "Weiß", "Schwarz", "Lila" };
+//            string description = "Das iPhone 14 Pro beeindruckt mit einem kraftvollen A16 Bionic Chip, 6 GB RAM und einem brillanten Display.";
+//            foreach (int currentMemory in memory)
+//            {
+//                double basePrice = currentMemory == 128 ? 699.99 : 899.99;
+//                foreach (string currentColor in colors)
+//                {
+//                    double price = basePrice + (currentColor == "Weiß" ? 250 : currentColor == "Schwarz" ? 400 : 100);
+//                    InsertProduct(connection, schemaName, "Apple", "Smartphone", "iPhone 14 Pro", price, currentMemory, 6, currentColor, 8, description, "iOS", "iPhone");
+//                }
+//            }
+//        }
+
+//        private static void InsertiPhone14ProMax(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 128, 256 };
+//            string[] colors = { "Weiß", "Schwarz", "Lila" };
+//            string description = "Das iPhone 14 Pro Max bietet beeindruckende Leistung, kabelloses Laden und ein erstklassiges Display.";
+//            foreach (int currentMemory in memory)
+//            {
+//                double basePrice = currentMemory == 128 ? 1099.99 : 1499.99;
+//                foreach (string currentColor in colors)
+//                {
+//                    InsertProduct(connection, schemaName, "Apple", "Smartphone", "iPhone 14 Pro Max", basePrice, currentMemory, 6, currentColor, 12, description, "iOS", "iPhone");
+//                }
+//            }
+//        }
+
+//        private static void InsertAirPodsPro(NpgsqlConnection connection, string schemaName)
+//        {
+//            string description = "AirPods Pro bieten aktives Noise-Cancelling, brillanten Sound und nahtlose Integration mit Apple-Geräten.";
+//            InsertProduct(connection, schemaName, "Apple", "Kopfhörer", "AirPods Pro 2. Generation", 249.99, null, null, "Weiß", 23, description, null, "airpods");
+//        }
+
+//        private static void InsertMacBookPro(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 256, 512 };
+//            int[] ram = { 8, 16 };
+//            foreach (int currentMemory in memory)
+//            {
+//                foreach (int currentRam in ram)
+//                {
+//                    double price = currentMemory == 256 ? 1899.99 : 2199.99;
+//                    price += currentRam == 8 ? 200 : 300;
+//                    string description = $"Das MacBook Pro bietet eine {currentMemory} GB SSD, {currentRam} GB RAM und eine erstklassige Performance.";
+//                    InsertProduct(connection, schemaName, "Apple", "Notebook", "MacBook Pro", price, currentMemory, currentRam, "Silber", 238, description, "macOS", "MacBook");
+//                }
+//            }
+//        }
+
+//        private static void InsertMacBookAir(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 256, 512 };
+//            int[] ram = { 8, 16 };
+//            foreach (int currentMemory in memory)
+//            {
+//                foreach (int currentRam in ram)
+//                {
+//                    double price = currentMemory == 256 ? 899.00 : 999.00;
+//                    price += currentRam == 8 ? 200 : 300;
+//                    string description = $"Das MacBook Air bietet eine {currentMemory} GB SSD, {currentRam} GB RAM und eine hervorragende Mobilität.";
+//                    InsertProduct(connection, schemaName, "Apple", "Notebook", "MacBook Air M1", price, currentMemory, currentRam, "Silber", 10, description, "macOS", "MacBook");
+//                }
+//            }
+//        }
+
+//        private static void InsertiPad(NpgsqlConnection connection, string schemaName)
+//        {
+//            string[] colors = { "Grau", "Silber" };
+//            string description = "Das iPad 10.2 bietet ein beeindruckendes Display, großartige Leistung und lange Akkulaufzeit.";
+//            foreach (string currentColor in colors)
+//            {
+//                InsertProduct(connection, schemaName, "Apple", "Tablet", "iPad 10.2", 679.99, 64, 3, currentColor, 10, description, "iPadOS", "iPad");
+//            }
+//        }
+
+//        private static void InsertiPadAir(NpgsqlConnection connection, string schemaName)
+//        {
+//            string[] colors = { "Blau", "Lila", "Pink" };
+//            string description = "Das iPad Air bietet großartige Leistung, ein beeindruckendes Display und ein schlankes Design.";
+//            foreach (string currentColor in colors)
+//            {
+//                InsertProduct(connection, schemaName, "Apple", "Tablet", "iPad Air", 599.99, 64, 8, currentColor, 10, description, "iPadOS", "iPad");
+//            }
+//        }
+
+//        // Samsung-Produkte
+//        private static void InsertGalaxyZFold5(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 128, 256 };
+//            string[] colors = { "Schwarz", "Blau" };
+//            string description = "Das Galaxy Z Fold5 bietet ein faltbares Display, hohe Leistung und ein innovatives Design.";
+//            foreach (int currentMemory in memory)
+//            {
+//                foreach (string currentColor in colors)
+//                {
+//                    double price = currentMemory == 128 ? 999.99 : 1299.99;
+//                    InsertProduct(connection, schemaName, "Samsung", "Smartphone", "Galaxy Z Fold5", price, currentMemory, 12, currentColor, 0, description, "Android 13", "Galaxy");
+//                }
+//            }
+//        }
+
+//        private static void InsertGalaxyTabA8(NpgsqlConnection connection, string schemaName)
+//        {
+//            string[] colors = { "Grau", "Silber" };
+//            string description = "Das Galaxy Tab A8 bietet großartige Unterhaltungsmöglichkeiten und ein schlankes Design.";
+//            foreach (string currentColor in colors)
+//            {
+//                InsertProduct(connection, schemaName, "Samsung", "Tablet", "Galaxy Tab A8", 159.99, 32, 3, currentColor, 112, description, "Android", "Galaxy");
+//            }
+//        }
+
+//        private static void InsertGalaxyBook3(NpgsqlConnection connection, string schemaName)
+//        {
+//            string description = "Das Galaxy Book3 bietet hohe Leistung, ein brillantes Display und eine schlanke Bauweise.";
+//            InsertProduct(connection, schemaName, "Samsung", "Notebook", "Galaxy Book3", 999.99, 256, 16, "Grau", 71, description, "Windows 11", "Galaxy");
+//        }
+
+//        // Huawei-Produkte
+//        private static void InsertHuaweiMate50Pro(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 256, 512 };
+//            string[] colors = { "Schwarz", "Silber" };
+//            string description = "Das Huawei Mate 50 Pro bietet eine beeindruckende Kamera, hohe Leistung und ein elegantes Design.";
+//            foreach (int currentMemory in memory)
+//            {
+//                foreach (string currentColor in colors)
+//                {
+//                    double price = currentMemory == 256 ? 799.00 : 849.99;
+//                    InsertProduct(connection, schemaName, "Huawei", "Smartphone", "Mate 50 Pro", price, currentMemory, 8, currentColor, 200, description, "Huawei OS", "Mate");
+//                }
+//            }
+//        }
+
+//        private static void InsertHuaweiP60Pro(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 128, 256, 512 };
+//            string[] colors = { "Schwarz", "Weiß" };
+//            string description = "Das Huawei P60 Pro bietet ein beeindruckendes Display, hohe Leistung und eine hochwertige Kamera.";
+//            foreach (int currentMemory in memory)
+//            {
+//                foreach (string currentColor in colors)
+//                {
+//                    double price = currentMemory == 128 ? 899.00 : currentMemory == 256 ? 999.00 : 1150.00;
+//                    InsertProduct(connection, schemaName, "Huawei", "Smartphone", "P60 Pro", price, currentMemory, 8, currentColor, 200, description, "EMUI 13.1", "P60");
+//                }
+//            }
+//        }
+
+//        private static void InsertHuaweiMateBook16s(NpgsqlConnection connection, string schemaName)
+//        {
+//            string description = "Das Huawei MateBook 16s bietet beeindruckende Leistung, ein großes Display und ein schlankes Design.";
+//            InsertProduct(connection, schemaName, "Huawei", "Notebook", "MateBook 16s", 1899.00, 1000, 16, "Silber", 152, description, "Windows 11 Home", "MateBook");
+//        }
+
+//        private static void InsertHuaweiMatePad(NpgsqlConnection connection, string schemaName)
+//        {
+//            int[] memory = { 128, 256, 512 };
+//            string description = "Das Huawei MatePad bietet großartige Leistung, ein beeindruckendes Display und Vielseitigkeit.";
+//            foreach (int currentMemory in memory)
+//            {
+//                double price = currentMemory == 128 ? 249.00 : currentMemory == 256 ? 300.00 : 349.99;
+//                InsertProduct(connection, schemaName, "Huawei", "Tablet", "MatePad SE WiFi 4", price, currentMemory, 4, "Schwarz", 83, description, "HarmonyOS", "MatePad");
+//            }
+//        }
+
+//        // Hilfsmethode für das Einfügen von Produkten
+//        private static void InsertProduct(NpgsqlConnection connection, string schemaName, string brand, string category, string productName, double price, int? physicalMemory, int? ram, string color, int stock, string description, string operatingSystem, string generalKeyword)
+//        {
+//            string query = $@"
+//            INSERT INTO ""{schemaName}"".""products"" 
+//            (brand, category, product_name, price, physical_memory, ram, color, stock, description, operating_system, general_keyword) 
+//            VALUES (@brand, @category, @product_name, @price, @physical_memory, @ram, @color, @stock, @description, @operating_system, @general_keyword);";
+
+//            using (var command = new NpgsqlCommand(query, connection))
+//            {
+//                command.Parameters.AddWithValue("brand", brand);
+//                command.Parameters.AddWithValue("category", category);
+//                command.Parameters.AddWithValue("product_name", productName);
+//                command.Parameters.AddWithValue("price", price);
+//                command.Parameters.AddWithValue("physical_memory", (object)physicalMemory ?? DBNull.Value);
+//                command.Parameters.AddWithValue("ram", (object)ram ?? DBNull.Value);
+//                command.Parameters.AddWithValue("color", color);
+//                command.Parameters.AddWithValue("stock", stock);
+//                command.Parameters.AddWithValue("description", description);
+//                command.Parameters.AddWithValue("operating_system", (object)operatingSystem ?? DBNull.Value);
+//                command.Parameters.AddWithValue("general_keyword", generalKeyword);
+//                command.ExecuteNonQuery();
+//            }
+//        }
+
+//        public static void InsertRatings(NpgsqlConnection connection, string schemaName)
+//        {
+//            Console.WriteLine("Füge Bewertungen in die Tabelle 'reviews' ein...");
+
+//            // Benutzer- und Produktlisten
+//            List<int> allUsers = GetAllUsers(connection, schemaName);
+//            List<int> allProducts = GetAllProducts(connection, schemaName);
+
+//            // Ratings einfügen
+//            InsertIntoRatings(connection, schemaName, allUsers, allProducts);
+
+//            Console.WriteLine("Die Reviews wurden erfolgreich hinzugefügt.");
+//        }
+
+//        private static List<int> GetAllUsers(NpgsqlConnection connection, string schemaName)
+//        {
+//            List<int> allUsers = new List<int>();
+//            string query = $@"SELECT user_id FROM ""{schemaName}"".""users"";";
+
+//            using (var command = new NpgsqlCommand(query, connection))
+//            {
+//                using (var reader = command.ExecuteReader())
+//                {
+//                    while (reader.Read())
+//                    {
+//                        allUsers.Add(reader.GetInt32(0));
+//                    }
+//                }
+//            }
+
+//            Console.WriteLine($"Gefundene Benutzer: {allUsers.Count}");
+//            return allUsers;
+//        }
+
+//        private static List<int> GetAllProducts(NpgsqlConnection connection, string schemaName)
+//        {
+//            List<int> allProducts = new List<int>();
+//            string query = $@"SELECT product_id FROM ""{schemaName}"".""products"";";
+
+//            using (var command = new NpgsqlCommand(query, connection))
+//            {
+//                using (var reader = command.ExecuteReader())
+//                {
+//                    while (reader.Read())
+//                    {
+//                        allProducts.Add(reader.GetInt32(0));
+//                    }
+//                }
+//            }
+
+//            Console.WriteLine($"Gefundene Produkte: {allProducts.Count}");
+//            return allProducts;
+//        }
+
+//        private static void InsertIntoRatings(NpgsqlConnection connection, string schemaName, List<int> allUsers, List<int> allProducts)
+//        {
+//            Random random = new Random();
+//            string query = $@"
+//            INSERT INTO ""{schemaName}"".""reviews"" 
+//            (user_id, product_id, rating, review_text, review_date) 
+//            VALUES (@user_id, @product_id, @rating, @review_text, @review_date);";
+
+//            foreach (int userId in allUsers)
+//            {
+//                foreach (int productId in allProducts)
+//                {
+//                    if (productId != 1) // Produkt ausschließen
+//                    {
+//                        int rating = random.Next(1, 6); // Zufällige Bewertung zwischen 1 und 5
+//                        string reviewText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
+//                        string reviewDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+//                        using (var command = new NpgsqlCommand(query, connection))
+//                        {
+//                            command.Parameters.AddWithValue("user_id", userId);
+//                            command.Parameters.AddWithValue("product_id", productId);
+//                            command.Parameters.AddWithValue("rating", rating);
+//                            command.Parameters.AddWithValue("review_text", reviewText);
+//                            command.Parameters.AddWithValue("review_date", reviewDate);
+
+//                            command.ExecuteNonQuery();
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
+//        public static void InsertProductImages(NpgsqlConnection connection, string schemaName)
+//        {
+//            Console.WriteLine("Füge Bilder zu Produkten in die Tabelle 'images' ein...");
+
+//            // LinkedHashMap von Java wird durch Dictionary ersetzt
+//            Dictionary<string, int> allPaths = ReadAllProductsFromDb(connection, schemaName);
+
+//            string query = $@"
+//            INSERT INTO ""{schemaName}"".""images"" (product_id, image_byte) 
+//            VALUES (@product_id, @image_byte);";
+
+//            foreach (var path in allPaths.Keys)
+//            {
+//                try
+//                {
+//                    byte[] imageBytes = GetImageBytes(path);
+//                    using (var command = new NpgsqlCommand(query, connection))
+//                    {
+//                        command.Parameters.AddWithValue("product_id", allPaths[path]);
+//                        command.Parameters.AddWithValue("image_byte", imageBytes);
+//                        command.ExecuteNonQuery();
+//                    }
+
+//                    Console.WriteLine($"Bild für Produkt-ID {allPaths[path]} erfolgreich hinzugefügt.");
+//                }
+//                catch (Exception ex)
+//                {
+//                    Console.WriteLine($"Fehler beim Hinzufügen des Bildes für Produkt-ID {allPaths[path]}: {ex.Message}");
+//                }
+//            }
+
+//            Console.WriteLine("Alle Bilder wurden erfolgreich hinzugefügt.");
+//        }
+
+//        private static Dictionary<string, int> ReadAllProductsFromDb(NpgsqlConnection connection, string schemaName)
+//        {
+//            Dictionary<string, int> allPaths = new Dictionary<string, int>();
+//            string query = $@"SELECT brand, product_name, color, product_id FROM ""{schemaName}"".""products"";";
+
+//            using (var command = new NpgsqlCommand(query, connection))
+//            {
+//                using (var reader = command.ExecuteReader())
+//                {
+//                    while (reader.Read())
+//                    {
+//                        string brand = reader.GetString(0);
+//                        string productName = reader.GetString(1);
+//                        string color = reader.GetString(2);
+//                        int productId = reader.GetInt32(3);
+//                        FillAllPaths(allPaths, brand, productName, color, productId);
+//                    }
+//                }
+//            }
+
+//            return allPaths;
+//        }
+
+//        private static void FillAllPaths(Dictionary<string, int> allPaths, string brand, string productName, string color, int productId)
+//        {
+//            // Passe den Produktnamen für den Dateipfad an
+//            string adjustedProductName = AdjustProductName(brand, productName);
+
+//            int quantity = CheckImageQuantity(brand, adjustedProductName, color);
+//            int index = 1;
+
+//            // Bilder für "AirPods Pro 2. Generation" auslassen
+//            if (!productName.Equals("AirPods Pro 2. Generation", StringComparison.OrdinalIgnoreCase))
+//            {
+//                if (quantity > 0)
+//                {
+//                    string basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "Thesis_LUab558.Server", "Images", "Products");
+//                    string relativePath = Path.Combine(basePath, brand, $"{adjustedProductName}_{color}");
+
+//                    // Main-Bild
+//                    string mainImagePath = $"{relativePath}_Main.jpeg";
+//                    allPaths[mainImagePath] = productId;
+
+//                    // Zusätzliche Bilder
+//                    while (quantity > 0)
+//                    {
+//                        string imagePath = $"{relativePath}_{index}.jpeg";
+//                        allPaths[imagePath] = productId;
+//                        quantity--;
+//                        index++;
+//                    }
+//                }
+//                else
+//                {
+//                    Console.WriteLine($"Keine Bilder für Produkt-ID {productId} gefunden.");
+//                }
+//            }
+//        }
+
+//        private static string AdjustProductName(string brand, string productName)
+//        {
+//            // Falls "Galaxy" im Produktnamen enthalten ist, entfernen
+//            if (brand.Equals("Samsung", StringComparison.OrdinalIgnoreCase))
+//            {
+//                return productName.Replace("Galaxy ", ""); // Entferne "Galaxy "
+//            }
+
+//            // Für andere Marken keine Anpassung
+//            return productName;
+//        }
+
+//        private static int CheckImageQuantity(string brand, string productName, string color)
+//        {
+//            int index = 0;
+//            string basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "Thesis_LUab558.Server", "Images", "Products");
+
+//            for (int i = 1; i <= 10; i++) // Maximal 10 Bilder + Main-Bild
+//            {
+//                string relativePath = Path.Combine(basePath, brand, $"{productName}_{color}_{i}.jpeg");
+
+//                if (File.Exists(relativePath))
+//                {
+//                    index++;
+//                }
+//                else
+//                {
+//                    break;
+//                }
+//            }
+
+//            return index;
+//        }
+
+//        private static byte[] GetImageBytes(string path)
+//        {
+//            if (!File.Exists(path))
+//            {
+//                throw new FileNotFoundException($"Bilddatei nicht gefunden: {path}");
+//            }
+
+//            return File.ReadAllBytes(path);
+//        }
+
+//        static void ExecuteNonQuery(NpgsqlConnection connection, string query, string successMessage)
+//        {
+//            using (var command = new NpgsqlCommand(query, connection))
+//            {
+//                command.ExecuteNonQuery();
+//                Console.WriteLine(successMessage);
+//            }
+//        }
+//    }
+//}

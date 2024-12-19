@@ -1,0 +1,19 @@
+@Thesis_LUab558.Server_HostAddress = http://localhost:5218
+
+GET {{Thesis_LUab558.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+### Test für Produkte
+GET https://localhost:7219/api/test/products/first10
+Content-Type: application/json
+
+### Test für Benutzer
+GET https://localhost:7219/api/test/users/first10
+Content-Type: application/json
+
+### Test für Bewertungen
+GET https://localhost:7219/api/test/reviews/first10
+Content-Type: application/json
+
