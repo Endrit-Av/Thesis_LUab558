@@ -10,7 +10,7 @@ import { MainpageService } from '../mainpage.service';
 })
 export class MainpageComponent implements OnInit {
   categories: string[] = [];
-  products: any[] = [];
+  products: { [key: string]: any[] } = {};
 
   constructor(private mainpageService: MainpageService) { }
 
@@ -21,11 +21,14 @@ export class MainpageComponent implements OnInit {
   loadCategories(): void {
     this.mainpageService.getCategories().subscribe(
       (data) => {
-        console.log('Kategorien:', data); // Prüfe die Daten in der Konsole
-        this.categories = data;
+        const desiredOrder = ['Smartphone', 'Notebook', 'Tablet'];
+        this.categories = data.sort((a, b) => desiredOrder.indexOf(a) - desiredOrder.indexOf(b));
+        this.categories.forEach((category) => {
+          this.loadProducts(category);
+        });
       },
       (error) => {
-        console.error('Fehler beim Laden der Kategorien:', error); // Fehler ausgeben
+        console.error('Fehler beim Laden der Kategorien:', error);
       }
     );
   }
@@ -33,13 +36,11 @@ export class MainpageComponent implements OnInit {
   loadProducts(category: string): void {
     this.mainpageService.getProductsByCategory(category).subscribe(
       (data) => {
-        console.log('Produkte:', data); // Prüfe die Daten in der Konsole
-        this.products = data;
+        this.products[category] = data;
       },
       (error) => {
-        console.error('Fehler beim Laden der Produkte:', error); // Fehler ausgeben
+        console.error(`Fehler beim Laden der Produkte für Kategorie ${category}:`, error);
       }
     );
   }
-
 }

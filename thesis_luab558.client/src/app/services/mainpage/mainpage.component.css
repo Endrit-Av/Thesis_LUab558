@@ -1,34 +1,38 @@
-/* Wichtig fÃ¼r Container zum Beispiel auf Mainpage */
-#mainCard .card {
+.card {
   display: flex;
   height: 100%;
   width: 22rem;
 }
 
-#mainCard .card-body {
+.card-body {
   flex: 1;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
 }
 
-#mainCard .card-footer {
-  background-color: #E5E5E5;
+.card-footer {
+  background-color: #e5e5e5;
 }
 
-#mainCard .image-container {
+.image-container {
   padding: 15px;
   display: flex;
-  align-items: center; /* Zentriert das Bild vertikal im Container */
-  justify-content: center; /* Zentriert das Bild horizontal im Container */
+  align-items: center;
+  justify-content: center;
   min-height: 300px;
 }
 
-  #mainCard .image-container img:hover {
+  .image-container img:hover {
     transform: scale(1.1);
+    transition: transform 0.3s ease;
   }
 
-  #mainCard .image-container img {
+  .image-container img {
     max-width: 240px;
     max-height: 300px;
     height: auto;
     width: auto;
   }
+
+.category-title {
+  margin: 20px 0;
+}

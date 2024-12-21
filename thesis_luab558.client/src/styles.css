@@ -1,7 +1,8 @@
 body {
   background-color: #f0f0f0;
-  margin-top: 150px;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  min-height: 90vh;
+  min-height: 100vh;
+  align-items: center; /* Zentriere horizontal */
 }

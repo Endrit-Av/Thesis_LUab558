@@ -20,10 +20,10 @@ namespace Thesis_LUab558.Server.Models
         public double Price { get; set; }
 
         [Column("physical_memory")]
-        public int PhysicalMemory { get; set; }
+        public int? PhysicalMemory { get; set; }
 
         [Column("ram")]
-        public int Ram { get; set; }
+        public int? Ram { get; set; }
 
         [Column("color")]
         public string Color { get; set; }
@@ -35,7 +35,7 @@ namespace Thesis_LUab558.Server.Models
         public string Description { get; set; }
 
         [Column("operating_system")]
-        public string OperatingSystem { get; set; }
+        public string? OperatingSystem { get; set; }
 
         [Column("general_keyword")]
         public string GeneralKeyword { get; set; }
