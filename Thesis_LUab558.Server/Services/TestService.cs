@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Thesis_LUab558.Server.Data;
-using Thesis_LUab558.Server.Models;
 using AutoMapper;
 using Thesis_LUab558.Server.DTO;
 

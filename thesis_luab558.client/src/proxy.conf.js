@@ -9,7 +9,9 @@ const PROXY_CONFIG = [
       "/api/test/products",
       "/api/test/users",
       "/api/test/reviews",
-      "/api/test/images"
+      "/api/test/images",
+      "/api/mainpage/categories", // Mainpage-Kategorien hinzufügen
+      "/api/mainpage/products"   // Mainpage-Produkte hinzufügen
     ],
     target: "https://localhost:7219",
     secure: false
