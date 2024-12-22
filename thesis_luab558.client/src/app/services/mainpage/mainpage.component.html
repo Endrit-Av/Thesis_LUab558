@@ -1,27 +1,53 @@
-<div class="container mt-5">
-  <div *ngFor="let category of categories" class="category-section">
-    <h2 class="category-title text-center">{{ category }}</h2>
-    <hr />
-    <div class="row mt-5">
-      <div *ngFor="let product of products[category]"
-           class="col-md-4 d-flex justify-content-center mb-5">
-        <div class="card">
-          <div class="image-container">
-            <img class="card-img-top"
-                 [src]="product.imageUrl"
-                 alt="Bild konnte nicht geladen werden" />
-          </div>
-          <div class="card-body text-center border-top">
-            <div class="card-title">
-              <b>{{product.brand}} {{ product.productName }} ab {{ product.price | currency:'EUR':'symbol':'1.2-2' }}</b>
+  <div id="carouselMain" class="carousel carousel-dark slide container" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button *ngFor="let image of bannerImages; let i = index"
+              type="button"
+              [attr.data-bs-slide-to]="i"
+              [class.active]="i === 0"
+              data-bs-target="#carouselMain"></button>
+    </div>
+    <div class="carousel-inner">
+      <div *ngFor="let image of bannerImages; let i = index"
+           class="carousel-item"
+           [class.active]="i === 0">
+        <img [src]="image" class="d-block mx-auto img-fluid" alt="Slide Image">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselMain" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselMain" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+  <div class="container mt-5">
+    <div *ngFor="let category of categories" class="category-section">
+      <h2 class="category-title text-center">{{ category }}</h2>
+      <hr />
+      <div class="row mt-5">
+        <div *ngFor="let product of products[category]"
+             class="col-md-4 d-flex justify-content-center mb-5">
+          <div class="card">
+            <div class="image-container">
+              <img class="card-img-top"
+                   [src]="product.imageUrl"
+                   alt="Bild konnte nicht geladen werden" />
             </div>
-            <p class="card-text">{{ product.description }}</p>
-          </div>
-          <div class="card-footer text-center">
-            <button class="btn btn-dark">Zum Produkt</button>
+            <div class="card-body text-center border-top">
+              <div class="card-title">
+                <b>{{product.brand}} {{ product.productName }} ab {{ product.price | currency:'EUR':'symbol':'1.2-2' }}</b>
+              </div>
+              <p class="card-text">{{ product.description }}</p>
+            </div>
+            <div class="card-footer text-center">
+              <button class="btn btn-dark">Zum Produkt</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>

@@ -57,5 +57,21 @@ namespace Thesis_LUab558.Server.Services
             var sentences = description.Split(new[] { ". " }, StringSplitOptions.RemoveEmptyEntries);
             return sentences.Length > 0 ? sentences[0] : "Keine Beschreibung verfügbar.";
         }
+
+        public List<string> GetBannerImages()
+        {
+            var bannerDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", "Banner");
+            if (!Directory.Exists(bannerDirectory))
+            {
+                throw new DirectoryNotFoundException("Banner-Ordner nicht gefunden.");
+            }
+
+            var images = Directory.GetFiles(bannerDirectory)
+                                  .Select(Path.GetFileName)
+                                  .Select(fileName => $"https://localhost:7219/Images/Banner/{fileName}")
+                                  .ToList();
+
+            return images;
+        }
     }
 }

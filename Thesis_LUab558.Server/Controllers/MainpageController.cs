@@ -41,5 +41,26 @@ namespace Thesis_LUab558.Server.Controllers
             }
             return Ok(products);
         }
+
+        [HttpGet("banner-images")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(200, "Bilder erfolgreich geladen.")]
+        public IActionResult GetBannerImages()
+        {
+            try
+            {
+                var images = _mainpageService.GetBannerImages();
+                return Ok(images);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ein Fehler ist aufgetreten: " + ex.Message);
+            }
+        }
     }
 }

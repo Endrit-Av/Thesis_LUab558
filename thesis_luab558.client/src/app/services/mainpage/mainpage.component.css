@@ -1,3 +1,7 @@
+.container {
+  flex-grow: 1;
+}
+
 .card {
   display: flex;
   height: 100%;
@@ -33,6 +37,7 @@
     width: auto;
   }
 
-.category-title {
-  margin: 20px 0;
+#carouselMain .carousel-item img {
+  width: 1050px;
+  height: 280px;
 }

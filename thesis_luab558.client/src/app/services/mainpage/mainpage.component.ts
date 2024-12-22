@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MainpageService } from '../mainpage.service';
+import { MainpageService } from './mainpage.service';
 
 @Component({
   selector: 'app-mainpage',
@@ -11,11 +11,13 @@ import { MainpageService } from '../mainpage.service';
 export class MainpageComponent implements OnInit {
   categories: string[] = [];
   products: { [key: string]: any[] } = {};
+  bannerImages: string[] = [];
 
   constructor(private mainpageService: MainpageService) { }
 
   ngOnInit(): void {
     this.loadCategories();
+    this.loadBannerImages();
   }
 
   loadCategories(): void {
@@ -40,6 +42,18 @@ export class MainpageComponent implements OnInit {
       },
       (error) => {
         console.error(`Fehler beim Laden der Produkte für Kategorie ${category}:`, error);
+      }
+    );
+  }
+
+  loadBannerImages(): void {
+    this.mainpageService.getBannerImages().subscribe(
+      (images) => {
+        console.log('Empfangene Banner-Bilder:', images); // Debug-Ausgabe
+        this.bannerImages = images;
+      },
+      (error) => {
+        console.error('Fehler beim Laden der Banner-Bilder:', error);
       }
     );
   }
