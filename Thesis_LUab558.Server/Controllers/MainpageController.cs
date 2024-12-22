@@ -16,17 +16,6 @@ namespace Thesis_LUab558.Server.Controllers
             _mainpageService = mainpageService;
         }
 
-        [HttpGet("categoriesStatic")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerResponse(200)]
-        [SwaggerResponse(500, "Interner Serverfehler.")]
-        public IActionResult GetCategoriesStatic()
-        {
-            var categories = _mainpageService.GetCategories();
-            return Ok(categories);
-        }
-
         [HttpGet("categories")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -48,7 +37,7 @@ namespace Thesis_LUab558.Server.Controllers
             var products = await _mainpageService.GetProductsByCategoryAsync(category);
             if (products == null || !products.Any())
             {
-                return NotFound("No products found for this category.");
+                return NotFound("Keine Produkte für diese Kategorie gefunden.");
             }
             return Ok(products);
         }

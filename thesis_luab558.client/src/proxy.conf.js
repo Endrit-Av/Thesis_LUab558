@@ -6,14 +6,15 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
 const PROXY_CONFIG = [
   {
     context: [
-      "/api/test/products",
-      "/api/test/users",
-      "/api/test/reviews",
-      "/api/test/images",
+      //"/api/test/products",
+      //"/api/test/users",
+      //"/api/test/reviews",
+      //"/api/test/images",
       "/api/mainpage/categories", // Mainpage-Kategorien hinzufügen
       "/api/mainpage/products"   // Mainpage-Produkte hinzufügen
     ],
     target: "https://localhost:7219",
+    retryOnError: true, // Wiederholt Anfragen bei Fehlern
     secure: false
   }
 ];
