@@ -22,5 +22,6 @@ export class MainpageService {
   getBannerImages(): Observable<string[]> {
     const url = 'https://localhost:7219/api/mainpage/banner-images';
     return this.http.get<string[]>(url);
+    //return this.http.get<string[]>(`${this.apiUrl}/banner-images`);
   }
 }

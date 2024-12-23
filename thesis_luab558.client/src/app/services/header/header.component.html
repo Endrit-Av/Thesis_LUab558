@@ -1,0 +1,72 @@
+<header>
+  <div class="fixed-top">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/mainpage">
+          <img src="https://localhost:7219/Images/Header/Logo.png" alt="NAS" width="200" height="44">
+        </a>
+
+        <div class="container navbar justify-content-center" id="navbar">
+          <input class="form-control me-2" type="search" placeholder="Wonach suchen Sie?" aria-label="Search" style='width: 720px'>
+          <button class="btn btn-outline-light" type="button">Suchen</button>
+        </div>
+
+        <div class="navbar justify-content-end" id="navbar">
+          <div class="navbar-nav">
+            <a class="nav-link position-relative" href="/cart">
+              <img title="cart" src="https://localhost:7219/Images/Header/Cart.png" width="30">
+              <span *ngIf="countCart > 0" class="itemCount">{{ countCart }}</span>
+            </a>
+            <a class="nav-link position-relative" href="/wishlist">
+              <img title="wishlist" src="https://localhost:7219/Images/Header/Wishlist.png" width="30">
+              <span *ngIf="countWishlist > 0" class="itemCount">{{ countWishlist }}</span>
+            </a>
+            <a class="nav-link">
+              <img title="account" (click)="togglePopup()" src="https://localhost:7219/Images/Header/Account.png" width="30">
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="navbar navbar-expand-lg bg-dark-subtle navbar-light">
+      <div class="container-fluid">
+        <div class="navbar-collapse justify-content-center" id="navbarCategories">
+          <ul class="navbar-nav">
+            <li class="nav-item px-4"><a class="nav-link" href="/apple">Apple</a></li>
+            <li class="nav-item px-4"><a class="nav-link" href="/samsung">Samsung</a></li>
+            <li class="nav-item px-4"><a class="nav-link" href="/huawei">Huawei</a></li>
+            <li class="nav-item px-4"><a class="nav-link" href="/discover">Entdecken</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Popup für Login -->
+  <div *ngIf="showPopup" id="account_popup" class="bg-dark popup">
+    <span class="close" (click)="togglePopup()">x</span>
+    <table>
+      <tr><td colspan="2"><img src="/assets/images/Header/Logo.png" title="logo" width="120"></td></tr>
+      <tr><td colspan="2" class="text-white bold">Anmelden</td></tr>
+      <tr>
+        <td class="text-white">E-Mail:</td>
+        <td><input type="text" [(ngModel)]="email" class="input-field"></td>
+      </tr>
+      <tr><td colspan="2" class="text-danger">{{ emailError }}</td></tr>
+      <tr>
+        <td class="text-white">Passwort:</td>
+        <td><input type="password" [(ngModel)]="password" class="input-field"></td>
+      </tr>
+      <tr><td colspan="2" class="text-danger">{{ passwordError }}</td></tr>
+      <tr>
+        <td colspan="2"><button class="btn btn-dark w-100" (click)="login()">Anmelden</button></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-white">
+          Kein Account? <a href="/register" class="text-bold">Hier registrieren</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>

@@ -6,7 +6,7 @@ import { MainpageService } from './mainpage.service';
   standalone: false,
   
   templateUrl: './mainpage.component.html',
-  styleUrl: './mainpage.component.css'
+  styleUrls: ['./mainpage.component.css']
 })
 export class MainpageComponent implements OnInit {
   categories: string[] = [];
