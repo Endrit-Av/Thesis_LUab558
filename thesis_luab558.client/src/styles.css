@@ -5,3 +5,13 @@ body {
   flex-direction: column;
   min-height: 90vh;
 }
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+footer {
+  margin-top: auto;
+}
