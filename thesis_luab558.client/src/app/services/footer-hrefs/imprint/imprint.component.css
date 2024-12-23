@@ -1,0 +1,12 @@
+.impressum-div {
+  margin: auto;
+  text-align: center;
+}
+
+  .impressum-div h2 {
+    margin-bottom: 50px;
+  }
+
+  .impressum-div p {
+    margin-top: 20px;
+  }

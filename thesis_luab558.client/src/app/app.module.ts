@@ -8,13 +8,19 @@ import { AppComponent } from './app.component';
 import { MainpageComponent } from './services/mainpage/mainpage.component';
 import { HeaderComponent } from './services/header/header.component';
 import { FooterComponent } from './services/footer/footer.component';
+import { ConditionsComponent } from './services/footer-hrefs/conditions/conditions.component';
+import { DataProtectionComponent } from './services/footer-hrefs/data-protection/data-protection.component';
+import { ImprintComponent } from './services/footer-hrefs/imprint/imprint.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainpageComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ConditionsComponent,
+    DataProtectionComponent,
+    ImprintComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

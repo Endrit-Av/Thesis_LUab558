@@ -8,6 +8,10 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\thesis_luab558.client\browser\</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="src\app\services\footer-links\**" />
+    <TypeScriptConfiguration Remove="src\app\services\footer-links\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="src\app\services\header\" />
     <Folder Include="src\app\services\footer\" />
   </ItemGroup>

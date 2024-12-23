@@ -1,0 +1,19 @@
+.datenschutz-div {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+  .datenschutz-div h1 {
+    margin-bottom: 5px;
+    margin-top: 20px;
+  }
+
+  .datenschutz-div p {
+    margin-top: 20px;
+  }
+
+  .datenschutz-div h2 {
+    margin-bottom: 5px;
+    margin-top: 20px;
+  }

@@ -1,0 +1,19 @@
+.agb-div {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+  .agb-div h2 {
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+
+  .agb-div h4 {
+    margin-bottom: 5px;
+    margin-top: 20px;
+  }
+
+  .agb-div p {
+    margin-top: 20px;
+  }
