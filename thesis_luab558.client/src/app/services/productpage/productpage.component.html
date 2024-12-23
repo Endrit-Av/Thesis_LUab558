@@ -1,0 +1,86 @@
+<div class="container mt-5" id="product-container" *ngIf="product">
+  <!-- Carousel -->
+  <div class="row">
+    <div class="col-md-5">
+      <div id="product-carousel" class="carousel slide carousel-dark" data-ride="carousel">
+        <div class="carousel-inner">
+          <div *ngFor="let image of product.images; let i = index" class="carousel-item" [class.active]="i === 0">
+            <img [src]="'data:image/jpeg;base64,' + image" alt="Bild konnte nicht geladen werden" class="img-fluid mx-auto d-block" />
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="thumbnail-row">
+        <div *ngFor="let image of product.images; let i = index" class="thumbnail" data-target="#product-carousel" [attr.data-slide-to]="i">
+          <img [src]="'data:image/jpeg;base64,' + image" alt="Bild konnte nicht geladen werden" class="img-thumbnail" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-7">
+      <h2 style="margin-bottom: -10px;" class="product-title">
+        {{ product.brand }} {{ product.productName }} in {{ product.color }} mit {{ product.physicalMemory }} GB Speicherplatz und {{ product.ram }} GB Arbeitsspeicher
+      </h2>
+      <br />
+      <p class="product-price" style="color:black;">Preis: {{ product.price | currency: 'EUR' }}</p>
+
+      <!-- Colors -->
+      <div>
+        <button *ngFor="let color of product.availableColors"
+                [style.backgroundColor]="color"
+                style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"></button>
+      </div>
+      <br />
+
+      <!-- RAM Options -->
+      <div>
+        <strong>Arbeitsspeicher:</strong>
+        <button *ngFor="let ram of product.availableRam"
+                style="width: 60px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;">
+          {{ ram }} GB
+        </button>
+      </div>
+      <br />
+
+      <!-- Memory Options -->
+      <div>
+        <strong>Speicherplatz:</strong>
+        <button *ngFor="let memory of product.availableMemory"
+                style="width: 80px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;">
+          {{ memory }} GB
+        </button>
+      </div>
+      <br />
+
+      <!-- Description -->
+      <p class="product-description">{{ product.description }}</p>
+
+      <!-- Buttons -->
+      <button class="btn btn-primary" (click)="addToCart(product.productId)">
+        <img class="img-fluid" style="width: 30px; height: 30px; margin-right:10px;" src="../../assets/cart.png" /> in den Warenkorb
+      </button>
+      <button class="btn btn-outline-dark" id="shareBtn" [value]="product.shareUrl" (click)="copyURL(product.shareUrl)">
+        <img class="img-fluid" style="width: 30px; height: 30px;" src="../../assets/share.png" alt="Artikel merken" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Technical Details -->
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h3>Technische Details</h3>
+      <p><b>Artikelnummer:</b> {{ product.productId }}</p>
+      <p><b>Marke:</b> {{ product.brand }}</p>
+      <p><b>Farbe:</b> {{ product.color }}</p>
+      <p><b>Speicherplatz:</b> {{ product.physicalMemory }} GB</p>
+      <p><b>Arbeitsspeicher:</b> {{ product.ram }} GB</p>
+      <p><b>Betriebssystem:</b> {{ product.operatingSystem }}</p>
+    </div>
+  </div>
+</div>

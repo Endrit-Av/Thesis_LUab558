@@ -4,6 +4,7 @@ import { ConditionsComponent } from './services/footer-hrefs/conditions/conditio
 import { DataProtectionComponent } from './services/footer-hrefs/data-protection/data-protection.component';
 import { ImprintComponent } from './services/footer-hrefs/imprint/imprint.component';
 import { MainpageComponent } from './services/mainpage/mainpage.component';
+import { ProductPageComponent } from './services/productpage/productpage.component';
 
 const routes: Routes = [
   { path: '', component: MainpageComponent }, // Standardroute
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'conditions', component: ConditionsComponent },
   { path: 'data-protection', component: DataProtectionComponent },
   { path: 'imprint', component: ImprintComponent },
+  { path: 'product/:id', component: ProductPageComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

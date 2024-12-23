@@ -44,7 +44,7 @@
               <p class="card-text">{{ product.description }}</p>
             </div>
             <div class="card-footer text-center">
-              <button class="btn btn-dark">Zum Produkt</button>
+              <button class="btn btn-dark" [routerLink]="['/product', product.productId]">Zum Produkt</button>
             </div>
           </div>
         </div>

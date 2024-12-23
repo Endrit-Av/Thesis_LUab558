@@ -24,4 +24,8 @@ export class MainpageService {
     return this.http.get<string[]>(url);
     //return this.http.get<string[]>(`${this.apiUrl}/banner-images`);
   }
+
+  getProductById(productId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/product/${productId}`);
+  }
 }

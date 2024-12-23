@@ -62,5 +62,15 @@ namespace Thesis_LUab558.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ein Fehler ist aufgetreten: " + ex.Message);
             }
         }
+
+        [HttpGet("product/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var product = await _mainpageService.GetProductByIdAsync(id);
+            if (product == null) return NotFound("Produkt nicht gefunden.");
+            return Ok(product);
+        }
     }
 }

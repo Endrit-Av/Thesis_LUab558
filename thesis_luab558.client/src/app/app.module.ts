@@ -11,6 +11,7 @@ import { FooterComponent } from './services/footer/footer.component';
 import { ConditionsComponent } from './services/footer-hrefs/conditions/conditions.component';
 import { DataProtectionComponent } from './services/footer-hrefs/data-protection/data-protection.component';
 import { ImprintComponent } from './services/footer-hrefs/imprint/imprint.component';
+import { ProductPageComponent } from './services/productpage/productpage.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ImprintComponent } from './services/footer-hrefs/imprint/imprint.compon
     FooterComponent,
     ConditionsComponent,
     DataProtectionComponent,
-    ImprintComponent
+    ImprintComponent,
+    ProductPageComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

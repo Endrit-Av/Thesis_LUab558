@@ -73,5 +73,18 @@ namespace Thesis_LUab558.Server.Services
 
             return images;
         }
+
+        public async Task<ProductDto?> GetProductByIdAsync(int id)
+        {
+            var product = await _context.Products
+                //.Include(p => p.Images) // Lade Bilder mit
+                .FirstOrDefaultAsync(p => p.ProductId == id);
+
+            if (product == null) return null;
+
+            var dto = _mapper.Map<ProductDto>(product);
+            //dto.Images = product.Images.Select(img => Convert.ToBase64String(img.ImageData)).ToList();
+            return dto;
+        }
     }
 }
