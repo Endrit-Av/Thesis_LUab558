@@ -10,8 +10,10 @@
 
         public int Rating { get; set; }
 
-        public string ReviewText { get; set; }
+        public string? ReviewText { get; set; }
 
-        public string ReviewDate { get; set; }
+        public string? ReviewDate { get; set; }
+
+        public string? UserName { get; set; }
     }
 }

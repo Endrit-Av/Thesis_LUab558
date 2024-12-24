@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 import { MainpageService } from '../mainpage/mainpage.service';
+import { ReviewService } from '../review/review.service';
 import { translateColor } from '../../utils/color-translator';
 
 @Component({
@@ -16,10 +17,20 @@ export class ProductPageComponent implements OnInit {
   availableRam: number[] = [];
   availableMemory: number[] = [];
 
+  //Reviewsabschnitt
+  reviews: any[] = [];
+  averageRating: number = 0;
+  totalReviews: number = 0;
+  stars: number[] = [1, 2, 3, 4, 5]; // Für die Sterneanzeige
+  popupVisible: boolean = false;
+  starRatings: { stars: number; percentage: number }[] = [];
+  //allReviewsLink: string = ''; //Für Potenzielle ReviewPage
+
   constructor(
     private route: ActivatedRoute,
     private mainpageService: MainpageService,
-    private router: Router
+    private reviewService: ReviewService,
+    private router: Router //Aktuell ungenutzt --> bei cleanup entfernen
   ) { }
 
   //ngOnInit(): void {
@@ -42,6 +53,7 @@ export class ProductPageComponent implements OnInit {
       if (productName && color && ram && memory) {
         this.loadProductByAttributes(productName, color, ram, memory);
       }
+
     });
   }
 
@@ -71,6 +83,12 @@ export class ProductPageComponent implements OnInit {
     this.mainpageService.getProductByAttributes(productName, color, ram, memory).subscribe(
       (data) => {
         this.product = data;
+
+        // Hole die Produkt-ID und lade die Reviews und Sternebewertung
+        const productId = data.productId;
+        this.loadReviewData(productId);
+        this.loadAverageRating(productId);
+
         // Lade die Varianten basierend auf dem Produktnamen
         this.mainpageService.getProductVariants(this.product.productName).subscribe(
           (variants) => {
@@ -98,6 +116,57 @@ export class ProductPageComponent implements OnInit {
     navigator.clipboard.writeText(url).then(() => {
       console.log('URL wurde kopiert:', url);
     });
+  }
+
+  // Review Logik
+  loadReviewData(productId: number): void {
+    this.reviewService.getReviewsByProductId(productId).subscribe(
+      (reviews) => {
+        const total = reviews.length;
+        const ratingsCount = [0, 0, 0, 0, 0];
+
+        reviews.forEach((review) => {
+          ratingsCount[review.rating - 1]++;
+        });
+
+        // Berechnung für die Sternebewertung
+        this.starRatings = ratingsCount
+          .map((count, index) => ({
+            stars: index + 1,
+            percentage: total > 0 ? Math.round((count / total) * 100) : 0,
+          }))
+          .reverse(); // Reihenfolge der Sterne umkehren
+
+        // Speichere die Reviews und Anzahl der Bewertungen
+        this.reviews = reviews;
+        this.totalReviews = total;
+
+        // Falls später eine Review-Seite benötigt wird:
+        // this.allReviewsLink = `/reviews/${productId}`;
+      },
+      (error) => {
+        console.error('Fehler beim Laden der Reviews:', error);
+      }
+    );
+  }
+
+  loadAverageRating(productId: number): void {
+    this.reviewService.getAverageRatingByProductId(productId).subscribe(
+      (data) => {
+        this.averageRating = data.averageRating;
+      },
+      (error) => {
+        console.error('Fehler beim Laden der Durchschnittsbewertung:', error);
+      }
+    );
+  }
+
+  showPopup(): void {
+    this.popupVisible = true;
+  }
+
+  closePopup(): void {
+    this.popupVisible = false;
   }
 
   // Helper-Funktionen

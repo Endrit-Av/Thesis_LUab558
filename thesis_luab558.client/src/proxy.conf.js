@@ -16,7 +16,8 @@ const PROXY_CONFIG = [
 
       "/api/mainpage/product", // Neue Route für Produktdetails
       "/api/mainpage/product/variants",  // Neue Route für Produktvarianten
-      "/api/mainpage/details" // Test Route
+      "/api/mainpage/details", // Test Route
+      "/api/review" // Basisroute für Review-API
     ],
     target: "https://localhost:7219",
     retryOnError: true, // Wiederholt Anfragen bei Fehlern

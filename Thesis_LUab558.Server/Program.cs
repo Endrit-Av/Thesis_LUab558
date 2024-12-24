@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // builder.Services.AddScoped<TestService>();      // korrekt in den Dependency Injection (DI)-Container von ASP.NET Core registriert
 builder.Services.AddScoped<MainpageService>();  // korrekt in den Dependency Injection (DI)-Container von ASP.NET Core registriert
+builder.Services.AddScoped<ReviewService>();    // korrekt in den Dependency Injection (DI)-Container von ASP.NET Core registriert
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(MappingProfile));

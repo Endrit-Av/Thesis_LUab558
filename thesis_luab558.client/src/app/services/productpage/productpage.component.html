@@ -28,6 +28,42 @@
         {{ product.brand }} {{ product.productName }} in {{ product.color }} mit {{ product.physicalMemory }} GB Speicherplatz und {{ product.ram }} GB Arbeitsspeicher
       </h2>
       <br />
+
+      <!-- Review -->
+        <div class="star-rating">
+          <!-- Popup -->
+          <div class="popup-overlay" *ngIf="popupVisible" (click)="closePopup()">
+            <div class="popup" (click)="$event.stopPropagation()">
+              <div class="popup-header mb-3">
+                <h2>Bewertungen</h2>
+                <span class="popup-close" (click)="closePopup()">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+              </div>
+
+              <div *ngFor="let rating of starRatings" class="star-ratings">
+                <div>{{ rating.stars }} Sterne</div>
+                <div style="flex-grow: 1; margin: 0 10px;">
+                  <progress class="progress-bar" [value]="rating.percentage" max="100"></progress>
+                </div>
+                <div class="percentage">{{ rating.percentage }}%</div>
+              </div>
+
+              <a href="/allReviewsLink" style="text-decoration: none; color: blue; display: block; margin-top: 10px;">
+                Alle Bewertungen ansehen ({{ totalReviews }})
+              </a>
+            </div>
+          </div>
+
+          <!-- Popup Button -->
+          <a (click)="showPopup()">
+            <p>
+              <span *ngFor="let star of stars" class="fa fa-star" [class.checked]="star <= averageRating"></span>
+            </p>
+          </a>
+        </div>
+
+      <!-- Product Price -->
       <p class="product-price" style="color:black;">Preis: {{ product.price | currency: 'EUR':'symbol':'1.0-0' }}</p>
 
       <!-- Colors -->
@@ -38,7 +74,6 @@
                 style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
                 [disabled]="translateColor(color) === 'notInStock'"
                 [routerLink]="['/product', product.productName, color, product.ram, product.physicalMemory]">
-                <!--(click)="loadProductByAttributes(product.name, color, product.ram, product.physicalMemory)">-->
         </button>
       </div>
       <br />
@@ -52,7 +87,6 @@
                 [style.opacity]="isCurrentRam(ram) ? '1' : '0.5'"
                 style="width: 60px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
                 [routerLink]="['/product', product.productName, product.color, ram, product.physicalMemory]">
-                <!--(click)="loadProductByAttributes(product.name, product.color, ram, product.physicalMemory)">-->
           {{ ram }} GB
         </button>
       </div>
@@ -67,7 +101,6 @@
                 [style.opacity]="isCurrentMemory(memory) ? '1' : '0.5'"
                 style="width: 80px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
                 [routerLink]="['/product', product.productName, product.color, product.ram, memory]">
-                <!--(click)="loadProductByAttributes(product.name, product.color, product.ram, memory)">-->
           {{ memory }} GB
         </button>
       </div>
@@ -100,4 +133,22 @@
       </div>
     </div>
   </div>
-</div>
+
+  <!-- User Reviews -->
+  <div class="reviews">
+    <h3>Bewertungen für {{ product.brand }} {{ product.productName }} in {{ product.color }} mit {{ product.physicalMemory }} GB Speicherplatz und {{ product.ram }} GB Arbeitsspeicher</h3>
+    <div class="star-rating">
+      <div *ngFor="let review of reviews.slice(0, 3)" class="review card">
+        <div class="card-body">
+          <h5 class="card-title">Bewertung von {{ review.userName }} am {{ review.reviewDate }}</h5>
+          <span *ngFor="let star of stars" class="fa fa-star" [class.checked]="star <= review.rating"></span>
+          <p class="card-text mt-3">{{ review.reviewText }}</p>
+        </div>
+      </div>
+    </div>
+      <a href="/reviews/{{ product.productId }}" style="text-decoration: none; color: blue; display: block; margin-top: 10px;">
+        Alle Bewertungen ansehen ({{ reviews.length }})
+      </a>
+    </div>
+
+  </div>
