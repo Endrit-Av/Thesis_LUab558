@@ -37,7 +37,8 @@
                 [style.border]="isCurrentColor(color) ? '2px solid black' : '2px solid white'"
                 style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
                 [disabled]="translateColor(color) === 'notInStock'"
-                (click)="loadProductByAttributes(color, product.ram, product.physicalMemory)">
+                [routerLink]="['/product', product.productName, color, product.ram, product.physicalMemory]">
+                <!--(click)="loadProductByAttributes(product.name, color, product.ram, product.physicalMemory)">-->
         </button>
       </div>
       <br />
@@ -50,7 +51,8 @@
         <button *ngFor="let ram of availableRam"
                 [style.opacity]="isCurrentRam(ram) ? '1' : '0.5'"
                 style="width: 60px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
-                (click)="loadProductByAttributes(product.color, ram, product.physicalMemory)">
+                [routerLink]="['/product', product.productName, product.color, ram, product.physicalMemory]">
+                <!--(click)="loadProductByAttributes(product.name, product.color, ram, product.physicalMemory)">-->
           {{ ram }} GB
         </button>
       </div>
@@ -64,7 +66,8 @@
         <button *ngFor="let memory of availableMemory"
                 [style.opacity]="isCurrentMemory(memory) ? '1' : '0.5'"
                 style="width: 80px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
-                (click)="loadProductByAttributes(product.color, product.ram, memory)">
+                [routerLink]="['/product', product.productName, product.color, product.ram, memory]">
+                <!--(click)="loadProductByAttributes(product.name, product.color, product.ram, memory)">-->
           {{ memory }} GB
         </button>
       </div>

@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; // Importiere FormsModule
+import { FormsModule } from '@angular/forms'; // Importiere FormsModule für den Header
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,7 +27,7 @@ import { ProductPageComponent } from './services/productpage/productpage.compone
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule,
-    FormsModule // Füge FormsModule hier hinzu
+    FormsModule // Formsmodule für den Header
   ],
   providers: [],
   bootstrap: [AppComponent]

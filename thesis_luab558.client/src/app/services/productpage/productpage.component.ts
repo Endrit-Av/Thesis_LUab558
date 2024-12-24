@@ -22,21 +22,55 @@ export class ProductPageComponent implements OnInit {
     private router: Router
   ) { }
 
+  //ngOnInit(): void {
+  //  // Auf Änderungen der Routenparameter lauschen
+  //  this.route.paramMap.subscribe(params => {
+  //    const productId = params.get('id');
+  //    if (productId) {
+  //      this.loadProductById(Number(productId));
+  //    }
+  //  });
+  //}
+
   ngOnInit(): void {
-    // Auf Änderungen der Routenparameter lauschen
     this.route.paramMap.subscribe(params => {
-      const productId = params.get('id');
-      if (productId) {
-        this.loadProductById(Number(productId));
+      const productName = params.get('productName');
+      const color = params.get('color');
+      const ram = Number(params.get('ram'));
+      const memory = Number(params.get('memory'));
+
+      if (productName && color && ram && memory) {
+        this.loadProductByAttributes(productName, color, ram, memory);
       }
     });
   }
 
-  loadProductById(productId: number): void {
-    this.mainpageService.getProductById(productId).subscribe(
+  //loadProductById(productId: number): void {
+  //  this.mainpageService.getProductById(productId).subscribe(
+  //    (data) => {
+  //      this.product = data;
+  //      // Lade die Varianten basierend auf dem Produktnamen
+  //      this.mainpageService.getProductVariants(this.product.productName).subscribe(
+  //        (variants) => {
+  //          this.availableColors = variants.availableColors;
+  //          this.availableRam = variants.availableRam;
+  //          this.availableMemory = variants.availableMemory;
+  //        },
+  //        (error) => {
+  //          console.error('Fehler beim Laden der Varianten:', error);
+  //        }
+  //      );
+  //    },
+  //    (error) => {
+  //      console.error('Fehler beim Laden des Produkts:', error);
+  //    }
+  //  );
+  //}
+
+  loadProductByAttributes(productName: string, color: string, ram: number, memory: number): void {
+    this.mainpageService.getProductByAttributes(productName, color, ram, memory).subscribe(
       (data) => {
         this.product = data;
-
         // Lade die Varianten basierend auf dem Produktnamen
         this.mainpageService.getProductVariants(this.product.productName).subscribe(
           (variants) => {
@@ -53,16 +87,6 @@ export class ProductPageComponent implements OnInit {
         console.error('Fehler beim Laden des Produkts:', error);
       }
     );
-  }
-
-  loadProductByAttributes(color: string, ram: number, memory: number): void {
-    this.mainpageService.getProductByAttributes(this.product.productName, color, ram, memory).subscribe((data) => {
-      this.router.navigate(['/product', data.productId]);
-    });
-  }
-
-  selectOption(optionType: string, value: any): void {
-    console.log(`Ausgewählt: ${optionType} - ${value}`);
   }
 
   addToCart(productId: number): void {

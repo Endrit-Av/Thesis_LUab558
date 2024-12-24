@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'conditions', component: ConditionsComponent },
   { path: 'data-protection', component: DataProtectionComponent },
   { path: 'imprint', component: ImprintComponent },
-  { path: 'product/:id', component: ProductPageComponent },
+  //{ path: 'product/:id', component: ProductPageComponent },
+  { path: 'product/:productName/:color/:ram/:memory', component: ProductPageComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
