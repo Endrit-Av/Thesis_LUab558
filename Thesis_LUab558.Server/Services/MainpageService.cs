@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Thesis_LUab558.Server.Data;
 using Thesis_LUab558.Server.DTO;
+using Thesis_LUab558.Server.Models;
 
 namespace Thesis_LUab558.Server.Services
 {
@@ -85,6 +86,40 @@ namespace Thesis_LUab558.Server.Services
             var dto = _mapper.Map<ProductDto>(product);
             //dto.Images = product.Images.Select(img => Convert.ToBase64String(img.ImageData)).ToList();
             return dto;
+        }
+        public async Task<ProductVariantDto> GetProductVariantsAsync(string productName)
+        {
+            var variants = await _context.Products
+                .Where(p => p.ProductName == productName)
+                .GroupBy(p => p.ProductName)
+                .Select(group => new ProductVariantDto
+                {
+                    AvailableColors = group.Select(p => p.Color).Distinct().ToList(),
+                    AvailableRam = group.Select(p => p.Ram).Distinct().ToList(),
+                    AvailableMemory = group.Select(p => p.PhysicalMemory).Distinct().ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return variants ?? new ProductVariantDto(); // Rückgabe eines leeren DTO, falls keine Varianten gefunden wurden
+        }
+
+        public async Task<ProductDto> GetProductDetailsAsync(string productName, string color, int ram, int physicalMemory)
+        {
+            var product = await _context.Products
+                .FirstOrDefaultAsync(p =>
+                    p.ProductName == productName &&
+                    p.Color == color &&
+                    p.Ram == ram &&
+                    p.PhysicalMemory == physicalMemory);
+
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Das angeforderte Produkt wurde nicht gefunden.");
+            }
+
+            var productDto = _mapper.Map<ProductDto>(product);
+
+            return productDto;
         }
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { MainpageService } from '../mainpage/mainpage.service';
+import { translateColor } from '../../utils/color-translator';
 
 @Component({
   selector: 'app-productpage',
@@ -11,39 +12,88 @@ import { MainpageService } from '../mainpage/mainpage.service';
 })
 export class ProductPageComponent implements OnInit {
   product: any;
+  availableColors: string[] = [];
+  availableRam: number[] = [];
+  availableMemory: number[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private mainpageService: MainpageService
+    private mainpageService: MainpageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    const productId = this.route.snapshot.paramMap.get('id');
-    if (productId) {
-      this.mainpageService.getProductById(Number(productId)).subscribe(
-        (data) => {
-          this.product = data;
-        },
-        (error) => {
-          console.error('Fehler beim Laden des Produkts:', error);
-        }
-      );
-    }
+    // Auf Änderungen der Routenparameter lauschen
+    this.route.paramMap.subscribe(params => {
+      const productId = params.get('id');
+      if (productId) {
+        this.loadProductById(Number(productId));
+      }
+    });
+  }
+
+  loadProductById(productId: number): void {
+    this.mainpageService.getProductById(productId).subscribe(
+      (data) => {
+        this.product = data;
+
+        // Lade die Varianten basierend auf dem Produktnamen
+        this.mainpageService.getProductVariants(this.product.productName).subscribe(
+          (variants) => {
+            this.availableColors = variants.availableColors;
+            this.availableRam = variants.availableRam;
+            this.availableMemory = variants.availableMemory;
+          },
+          (error) => {
+            console.error('Fehler beim Laden der Varianten:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Fehler beim Laden des Produkts:', error);
+      }
+    );
+  }
+
+  loadProductByAttributes(color: string, ram: number, memory: number): void {
+    this.mainpageService.getProductByAttributes(this.product.productName, color, ram, memory).subscribe((data) => {
+      this.router.navigate(['/product', data.productId]);
+    });
+  }
+
+  selectOption(optionType: string, value: any): void {
+    console.log(`Ausgewählt: ${optionType} - ${value}`);
   }
 
   addToCart(productId: number): void {
     console.log('Produkt zum Warenkorb hinzugefügt:', productId);
+    //Später logik und backend-service einbinden
   }
 
   copyURL(url: string): void {
     navigator.clipboard.writeText(url).then(() => {
-      const popup = document.getElementById('popup_link');
-      if (popup) {
-        popup.style.display = 'block';
-        setTimeout(() => {
-          popup.style.display = 'none';
-        }, 3000);
-      }
+      console.log('URL wurde kopiert:', url);
     });
+  }
+
+  // Helper-Funktionen
+  translateColor(color: string): string {
+    return translateColor(color);
+  }
+
+  checkIfProductIsInStock(): boolean {
+    return this.product && this.product.stock > 0;
+  }
+
+  isCurrentColor(color: string): boolean {
+    return this.product.color === color;
+  }
+
+  isCurrentRam(ram: number): boolean {
+    return this.product.ram === ram;
+  }
+
+  isCurrentMemory(memory: number): boolean {
+    return this.product.physicalMemory === memory;
   }
 }

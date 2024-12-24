@@ -5,7 +5,7 @@
       <div id="product-carousel" class="carousel slide carousel-dark" data-ride="carousel">
         <div class="carousel-inner">
           <div *ngFor="let image of product.images; let i = index" class="carousel-item" [class.active]="i === 0">
-            <img [src]="'data:image/jpeg;base64,' + image" alt="Bild konnte nicht geladen werden" class="img-fluid mx-auto d-block" />
+            <img src="https://localhost:7219/Images/Products/Apple/iPhone_14_Pro_Lila_Main.jpeg" alt="Bild konnte nicht geladen werden" class="img-fluid mx-auto d-block" />
           </div>
         </div>
         <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
@@ -17,7 +17,7 @@
       </div>
       <div class="thumbnail-row">
         <div *ngFor="let image of product.images; let i = index" class="thumbnail" data-target="#product-carousel" [attr.data-slide-to]="i">
-          <img [src]="'data:image/jpeg;base64,' + image" alt="Bild konnte nicht geladen werden" class="img-thumbnail" />
+          <img src="https://localhost:7219/Images/Products/Apple/iPhone_14_Pro_Lila_Main.jpeg" alt="Bild konnte nicht geladen werden" class="img-thumbnail" />
         </div>
       </div>
     </div>
@@ -28,21 +28,29 @@
         {{ product.brand }} {{ product.productName }} in {{ product.color }} mit {{ product.physicalMemory }} GB Speicherplatz und {{ product.ram }} GB Arbeitsspeicher
       </h2>
       <br />
-      <p class="product-price" style="color:black;">Preis: {{ product.price | currency: 'EUR' }}</p>
+      <p class="product-price" style="color:black;">Preis: {{ product.price | currency: 'EUR':'symbol':'1.0-0' }}</p>
 
       <!-- Colors -->
       <div>
-        <button *ngFor="let color of product.availableColors"
-                [style.backgroundColor]="color"
-                style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"></button>
+        <button *ngFor="let color of availableColors"
+                [style.backgroundColor]="translateColor(color)"
+                [style.border]="isCurrentColor(color) ? '2px solid black' : '2px solid white'"
+                style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
+                [disabled]="translateColor(color) === 'notInStock'"
+                (click)="loadProductByAttributes(color, product.ram, product.physicalMemory)">
+        </button>
       </div>
       <br />
 
       <!-- RAM Options -->
       <div>
-        <strong>Arbeitsspeicher:</strong>
-        <button *ngFor="let ram of product.availableRam"
-                style="width: 60px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;">
+        <div style="margin-bottom: 10px;">
+          <strong>Arbeitsspeicher:</strong>
+        </div>
+        <button *ngFor="let ram of availableRam"
+                [style.opacity]="isCurrentRam(ram) ? '1' : '0.5'"
+                style="width: 60px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
+                (click)="loadProductByAttributes(product.color, ram, product.physicalMemory)">
           {{ ram }} GB
         </button>
       </div>
@@ -50,9 +58,13 @@
 
       <!-- Memory Options -->
       <div>
-        <strong>Speicherplatz:</strong>
-        <button *ngFor="let memory of product.availableMemory"
-                style="width: 80px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;">
+        <div style="margin-bottom:10px;">
+          <strong>Speicherplatz:</strong>
+        </div>
+        <button *ngFor="let memory of availableMemory"
+                [style.opacity]="isCurrentMemory(memory) ? '1' : '0.5'"
+                style="width: 80px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
+                (click)="loadProductByAttributes(product.color, product.ram, memory)">
           {{ memory }} GB
         </button>
       </div>
@@ -60,13 +72,12 @@
 
       <!-- Description -->
       <p class="product-description">{{ product.description }}</p>
-
       <!-- Buttons -->
       <button class="btn btn-primary" (click)="addToCart(product.productId)">
-        <img class="img-fluid" style="width: 30px; height: 30px; margin-right:10px;" src="../../assets/cart.png" /> in den Warenkorb
+        <img class="img-fluid" style="width: 30px; height: 30px; margin-right:10px;" src="https://localhost:7219/Images/Header/cart.png" /> in den Warenkorb
       </button>
       <button class="btn btn-outline-dark" id="shareBtn" [value]="product.shareUrl" (click)="copyURL(product.shareUrl)">
-        <img class="img-fluid" style="width: 30px; height: 30px;" src="../../assets/share.png" alt="Artikel merken" />
+        <img class="img-fluid" style="width: 30px; height: 30px;" src="https://localhost:7219/Images/ProductMain/share.png" alt="Artikel merken" />
       </button>
     </div>
   </div>
@@ -74,13 +85,16 @@
   <!-- Technical Details -->
   <div class="row mt-5">
     <div class="col-md-12">
-      <h3>Technische Details</h3>
-      <p><b>Artikelnummer:</b> {{ product.productId }}</p>
-      <p><b>Marke:</b> {{ product.brand }}</p>
-      <p><b>Farbe:</b> {{ product.color }}</p>
-      <p><b>Speicherplatz:</b> {{ product.physicalMemory }} GB</p>
-      <p><b>Arbeitsspeicher:</b> {{ product.ram }} GB</p>
-      <p><b>Betriebssystem:</b> {{ product.operatingSystem }}</p>
+      <div class="product-details technical-details">
+        <h3>Technische Details</h3> <br />
+        <p><b>Artikelnummer:</b> {{ product.productId }}</p>
+        <p><b>Marke:</b> {{ product.brand }}</p>
+        <p><b>Farbe:</b> {{ product.color }}</p>
+        <p><b>Speicherplatz:</b> {{ product.physicalMemory }} GB</p>
+        <p><b>Arbeitsspeicher:</b> {{ product.ram }} GB</p>
+        <p><b>Betriebssystem:</b> {{ product.operatingSystem }}</p>
+        <p>...</p>
+      </div>
     </div>
   </div>
 </div>

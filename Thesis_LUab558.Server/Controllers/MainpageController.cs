@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 using Thesis_LUab558.Server.DTO;
 using Thesis_LUab558.Server.Services;
@@ -69,6 +70,26 @@ namespace Thesis_LUab558.Server.Controllers
         public async Task<IActionResult> GetProductById(int id)
         {
             var product = await _mainpageService.GetProductByIdAsync(id);
+            if (product == null) return NotFound("Produkt nicht gefunden.");
+            return Ok(product);
+        }
+
+        [HttpGet("product/variants/{productName}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductVariants(string productName)
+        {
+            var variants = await _mainpageService.GetProductVariantsAsync(productName);
+            if (variants == null) return NotFound("Keine Varianten gefunden.");
+            return Ok(variants);
+        }
+
+        [HttpGet("product/details")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductDetails([FromQuery] string productName, [FromQuery] string color, [FromQuery] int ram, [FromQuery] int physicalMemory)
+        {
+            var product = await _mainpageService.GetProductDetailsAsync(productName, color, ram, physicalMemory);
             if (product == null) return NotFound("Produkt nicht gefunden.");
             return Ok(product);
         }

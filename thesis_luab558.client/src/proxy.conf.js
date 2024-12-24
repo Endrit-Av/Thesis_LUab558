@@ -13,7 +13,10 @@ const PROXY_CONFIG = [
       "/api/mainpage/categories", // Mainpage-Kategorien hinzufügen
       "/api/mainpage/products",   // Mainpage-Produkte hinzufügen
       "/api/mainpage/banner-images", //Mainpage-Bilder hinzufügen
-      "/api/mainpage/product" // Neue Route für Produktdetails
+
+      "/api/mainpage/product", // Neue Route für Produktdetails
+      "/api/mainpage/product/variants",  // Neue Route für Produktvarianten
+      "/api/mainpage/details" // Test Route
     ],
     target: "https://localhost:7219",
     retryOnError: true, // Wiederholt Anfragen bei Fehlern
