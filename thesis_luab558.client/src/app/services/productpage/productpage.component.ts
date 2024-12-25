@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 import { MainpageService } from '../mainpage/mainpage.service';
 import { ReviewService } from '../review/review.service';
+import { ImageService } from '../image/image.service'
 import { translateColor } from '../../utils/color-translator';
 
 @Component({
@@ -13,6 +14,12 @@ import { translateColor } from '../../utils/color-translator';
 })
 export class ProductPageComponent implements OnInit {
   product: any;
+
+  //Karousel
+  images: any[] = [];
+  currentIndex: number = 0;
+
+  //Eigenschaftsbuttons
   availableColors: string[] = [];
   availableRam: number[] = [];
   availableMemory: number[] = [];
@@ -29,21 +36,13 @@ export class ProductPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private mainpageService: MainpageService,
+    private imageService: ImageService,
     private reviewService: ReviewService,
     private router: Router //Aktuell ungenutzt --> bei cleanup entfernen
   ) { }
 
-  //ngOnInit(): void {
-  //  // Auf Änderungen der Routenparameter lauschen
-  //  this.route.paramMap.subscribe(params => {
-  //    const productId = params.get('id');
-  //    if (productId) {
-  //      this.loadProductById(Number(productId));
-  //    }
-  //  });
-  //}
-
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.route.paramMap.subscribe(params => {
       const productName = params.get('productName');
       const color = params.get('color');
@@ -53,31 +52,19 @@ export class ProductPageComponent implements OnInit {
       if (productName && color && ram && memory) {
         this.loadProductByAttributes(productName, color, ram, memory);
       }
-
     });
   }
 
-  //loadProductById(productId: number): void {
-  //  this.mainpageService.getProductById(productId).subscribe(
-  //    (data) => {
-  //      this.product = data;
-  //      // Lade die Varianten basierend auf dem Produktnamen
-  //      this.mainpageService.getProductVariants(this.product.productName).subscribe(
-  //        (variants) => {
-  //          this.availableColors = variants.availableColors;
-  //          this.availableRam = variants.availableRam;
-  //          this.availableMemory = variants.availableMemory;
-  //        },
-  //        (error) => {
-  //          console.error('Fehler beim Laden der Varianten:', error);
-  //        }
-  //      );
-  //    },
-  //    (error) => {
-  //      console.error('Fehler beim Laden des Produkts:', error);
-  //    }
-  //  );
-  //}
+  loadImages(productName: string, color: string): void {
+    this.imageService.getImagesByAttributes(productName, color).subscribe(
+      (data) => {
+        this.images = data;
+      },
+      (error) => {
+        console.error('Fehler beim Laden der Bilder:', error);
+      }
+    );
+  }
 
   loadProductByAttributes(productName: string, color: string, ram: number, memory: number): void {
     this.mainpageService.getProductByAttributes(productName, color, ram, memory).subscribe(
@@ -86,6 +73,7 @@ export class ProductPageComponent implements OnInit {
 
         // Hole die Produkt-ID und lade die Reviews und Sternebewertung
         const productId = data.productId;
+        this.loadImages(data.productName, data.color);
         this.loadReviewData(productId);
         this.loadAverageRating(productId);
 
@@ -170,6 +158,16 @@ export class ProductPageComponent implements OnInit {
   }
 
   // Helper-Funktionen
+  selectSlide(index: number): void {
+    this.currentIndex = index;
+    const carousel = document.getElementById('product-carousel') as any;
+    if (carousel) {
+      carousel.querySelectorAll('.carousel-item').forEach((item: HTMLElement, idx: number) => {
+        item.classList.toggle('active', idx === index);
+      });
+    }
+  }
+
   translateColor(color: string): string {
     return translateColor(color);
   }

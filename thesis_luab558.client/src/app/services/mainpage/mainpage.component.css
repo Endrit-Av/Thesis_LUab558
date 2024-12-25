@@ -28,6 +28,7 @@
   .image-container img:hover {
     transform: scale(1.1);
     transition: transform 0.3s ease;
+    cursor: pointer;
   }
 
   .image-container img {
@@ -41,3 +42,7 @@
   width: 1050px;
   height: 280px;
 }
+
+  #carouselMain .carousel-item img:hover {
+    cursor: pointer;
+  }

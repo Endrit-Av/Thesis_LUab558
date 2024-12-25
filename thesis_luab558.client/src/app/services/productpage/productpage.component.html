@@ -1,25 +1,33 @@
 <div class="container mt-5" id="product-container" *ngIf="product">
-  <!-- Carousel -->
+
   <div class="row">
     <div class="col-md-5">
-      <div id="product-carousel" class="carousel slide carousel-dark" data-ride="carousel">
+      <!-- Carousel -->
+      <div id="product-carousel" class="carousel carousel-dark slide container" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div *ngFor="let image of product.images; let i = index" class="carousel-item" [class.active]="i === 0">
-            <img src="https://localhost:7219/Images/Products/Apple/iPhone_14_Pro_Lila_Main.jpeg" alt="Bild konnte nicht geladen werden" class="img-fluid mx-auto d-block" />
+          <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === 0">
+            <img [src]="'data:image/jpeg;base64,' + image.base64Image" class="img-fluid mx-auto d-block" alt="Bild konnte nicht geladen werden">
           </div>
         </div>
-        <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#product-carousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </a>
-        <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#product-carousel" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </a>
+        </button>
       </div>
+
+      <!-- Thumbnails -->
       <div class="thumbnail-row">
-        <div *ngFor="let image of product.images; let i = index" class="thumbnail" data-target="#product-carousel" [attr.data-slide-to]="i">
-          <img src="https://localhost:7219/Images/Products/Apple/iPhone_14_Pro_Lila_Main.jpeg" alt="Bild konnte nicht geladen werden" class="img-thumbnail" />
+        <div *ngFor="let image of images; let i = index" class="thumbnail">
+          <img [src]="'data:image/jpeg;base64,' + image.base64Image"
+               class="img-thumbnail"
+               style="cursor: pointer;"
+               [class.active-thumbnail]="i === currentIndex"
+               (click)="selectSlide(i)" />
         </div>
       </div>
+
     </div>
 
     <!-- Product Details -->
