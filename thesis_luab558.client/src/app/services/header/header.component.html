@@ -13,17 +13,69 @@
 
         <div class="navbar justify-content-end" id="navbar">
           <div class="navbar-nav">
-            <a class="nav-link position-relative" href="/cart">
+            <a class="nav-link position-relative me-2" href="/cart">
               <img title="cart" src="https://localhost:7219/Images/Header/Cart.png" width="30">
               <span *ngIf="countCart > 0" class="itemCount">{{ countCart }}</span>
             </a>
-            <a class="nav-link position-relative" href="/wishlist">
+            <a class="nav-link position-relative me-2" href="/wishlist">
               <img title="wishlist" src="https://localhost:7219/Images/Header/Wishlist.png" width="30">
               <span *ngIf="countWishlist > 0" class="itemCount">{{ countWishlist }}</span>
             </a>
+
+            <!-- Popup für Login -->
+            <div *ngIf="showPopup" class="bg-dark" id="account_popup" style='z-index: 1031; position: absolute; right: 0; padding: 10px; border-radius: 10px;'>
+              <span class="close" (click)="togglePopup()" style='color:white; position: absolute; top: 5px; right: 10px; cursor: pointer;'>
+              <i class="fa fa-times" aria-hidden="true" style="margin-top: 10px; margin-right: 10px;"></i>
+              </span>
+              <table>
+                <tr>
+                  <td colspan="2">
+                    <img src="https://localhost:7219/Images/Header/Logo.png" title="logo" width="120">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="color: white; font-weight: bold;">Anmelden</td>
+                </tr>
+                <tr>
+                  <td style='color:white;'>E-Mail:</td>
+                  <td>
+                    <input type="text" [(ngModel)]="email" style="border-radius: 10px; background-color: #f5f5f5;">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="color: red; font-size: 12px; font-family: Verdana, sans-serif;">{{ emailError }}</td>
+                </tr>
+                <tr>
+                  <td style='color:white;'>Passwort:</td>
+                  <td>
+                    <input type="password" [(ngModel)]="password" style="border-radius: 10px; background-color: #f5f5f5;">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="color: red; font-size: 12px; font-family: Verdana, sans-serif;">{{ passwordError }}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <a href="/recover-password">Passwort vergessen?</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <button name="btnLog" (click)="login()" style="width: 100%;">Anmelden</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="color: white;">
+                    Kein Account? Melden Sie sich <a href="/register" style="color: white; font-weight: bold; text-decoration: underline;">hier</a>  an!
+                  </td>
+                </tr>
+              </table>
+            </div>
+
             <a class="nav-link">
-              <img title="account" (click)="togglePopup()" src="https://localhost:7219/Images/Header/Account.png" width="30">
+              <img title="account" (click)="togglePopup()" src="https://localhost:7219/Images/Header/Account.png" width="30" style="cursor: pointer;">
             </a>
+
           </div>
         </div>
       </div>
@@ -43,30 +95,6 @@
     </nav>
   </div>
 
-  <!-- Popup für Login -->
-  <div *ngIf="showPopup" id="account_popup" class="bg-dark popup">
-    <span class="close" (click)="togglePopup()">x</span>
-    <table>
-      <tr><td colspan="2"><img src="/assets/images/Header/Logo.png" title="logo" width="120"></td></tr>
-      <tr><td colspan="2" class="text-white bold">Anmelden</td></tr>
-      <tr>
-        <td class="text-white">E-Mail:</td>
-        <td><input type="text" [(ngModel)]="email" class="input-field"></td>
-      </tr>
-      <tr><td colspan="2" class="text-danger">{{ emailError }}</td></tr>
-      <tr>
-        <td class="text-white">Passwort:</td>
-        <td><input type="password" [(ngModel)]="password" class="input-field"></td>
-      </tr>
-      <tr><td colspan="2" class="text-danger">{{ passwordError }}</td></tr>
-      <tr>
-        <td colspan="2"><button class="btn btn-dark w-100" (click)="login()">Anmelden</button></td>
-      </tr>
-      <tr>
-        <td colspan="2" class="text-white">
-          Kein Account? <a href="/register" class="text-bold">Hier registrieren</a>
-        </td>
-      </tr>
-    </table>
-  </div>
+
+
 </header>

@@ -72,7 +72,7 @@
       </div>
 
       <!-- Product Price -->
-      <p class="product-price" style="color:black;">Preis: {{ product.price | currency: 'EUR':'symbol':'1.0-0' }}</p>
+      <p class="product-price" style="color:black;">Preis: {{ product.price | currency:'EUR':'symbol':'1.0-2' }}</p>
 
       <!-- Out of Stock-->
       <p *ngIf="product.stock <= 0" class="text-danger">Derzeit leider nicht verfügbar</p>
@@ -119,12 +119,20 @@
       <!-- Description -->
       <p class="product-description">{{ product.description }}</p>
       <!-- Buttons -->
-      <button class="btn btn-primary" (click)="addToCart(product.productId)" [disabled]="product.stock <= 0">
+      <button class="btn btn-primary" (click)="addToCart(product.productId, product.productName)" [disabled]="product.stock <= 0">
         <img class="img-fluid" style="width: 30px; height: 30px; margin-right:10px;" src="https://localhost:7219/Images/Header/cart.png" /> in den Warenkorb
       </button>
       <button class="btn btn-outline-dark" id="shareBtn" [value]="product.shareUrl" (click)="copyURL(product.shareUrl)">
         <img class="img-fluid" style="width: 30px; height: 30px;" src="https://localhost:7219/Images/ProductMain/share.png" alt="Artikel merken" />
       </button>
+
+      <div class="popup_link" id="popup_link">
+        Link kopiert! Teilen Sie ihn gerne mit Freunden und Familie.
+      </div>
+
+      <div class="popup_cart" id="popup_cart">
+      </div>
+
     </div>
   </div>
 

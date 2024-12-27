@@ -73,6 +73,8 @@ export class ProductPageComponent implements OnInit {
       (data) => {
         this.product = data;
 
+        this.product.shareUrl = window.location.href
+
         // Hole die Produkt-ID und lade die Reviews und Sternebewertung
         const productId = data.productId;
         this.loadImages(data.productName, data.color);
@@ -102,12 +104,13 @@ export class ProductPageComponent implements OnInit {
   //  //Später logik und backend-service einbinden
   //}
 
-  addToCart(productId: number): void {
+  addToCart(productId: number, productName: string,): void {
     if (this.product.stock > 0) {
       this.cartService.addToCart(productId).subscribe(
         () => {
           this.cartService.updateCartCount(); //Updated Warenkorb zähler
           this.product.stock--;
+          this.showCartPopup(productName);
         },
         (error) => {
           console.error('Fehler beim Hinzufügen zum Warenkorb:', error);
@@ -118,7 +121,7 @@ export class ProductPageComponent implements OnInit {
 
   copyURL(url: string): void {
     navigator.clipboard.writeText(url).then(() => {
-      console.log('URL wurde kopiert:', url);
+      this.showURLPopup();
     });
   }
 
@@ -171,6 +174,27 @@ export class ProductPageComponent implements OnInit {
 
   closePopup(): void {
     this.popupVisible = false;
+  }
+
+  showCartPopup(productName: string): void {
+    const popup = document.getElementById('popup_cart');
+    if (popup) {
+      popup.innerText = `${productName} wurde zum Warenkorb hinzugefügt!`;
+      popup.style.display = 'block';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 3000); // Popup nach 3 Sekunden ausblenden
+    }
+  }
+
+  showURLPopup(): void {
+    const popup = document.getElementById('popup_link');
+    if (popup) {
+      popup.style.display = 'block';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 3000); // Popup nach 3 Sekunden ausblenden
+    }
   }
 
   // Helper-Funktionen

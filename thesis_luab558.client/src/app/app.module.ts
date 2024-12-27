@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; // Importiere FormsModule für den Header
-
+import { LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainpageComponent } from './services/mainpage/mainpage.component';
@@ -31,7 +31,9 @@ import { CartComponent } from './services/cart/cart.component';
     AppRoutingModule,
     FormsModule // Formsmodule für den Header
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'de-DE' } // Setzt 'de-DE' als Standard-Lokalisierung
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

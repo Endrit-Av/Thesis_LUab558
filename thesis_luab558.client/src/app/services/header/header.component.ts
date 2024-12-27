@@ -11,8 +11,8 @@ import { CartService } from '../cart/cart.service';
 export class HeaderComponent implements OnInit {
   countCart: number = 0;
   countWishlist: number = 0;
-  showPopup: boolean = false;
 
+  showPopup: boolean = false;
   email: string = '';
   password: string = '';
   emailError: string = '';
@@ -31,14 +31,21 @@ export class HeaderComponent implements OnInit {
   }
 
   login(): void {
-    if (!this.email || !this.password) {
+    if (!this.email) {
       this.emailError = 'E-Mail ist erforderlich.';
+    } else {
+      this.emailError = '';
+    }
+
+    if (!this.password) {
       this.passwordError = 'Passwort ist erforderlich.';
     } else {
-      console.log('Login mit:', this.email, this.password);
-      this.emailError = '';
       this.passwordError = '';
-      this.togglePopup();
+    }
+
+    if (this.email && this.password) {
+      console.log('Login mit', this.email, this.password);
+      this.togglePopup(); // Popup schließen
     }
   }
 }

@@ -114,6 +114,34 @@ button {
   cursor: pointer;
 }
 
+.popup_link { /* CopyUrl Popup*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.popup_cart { /* Warenkorb Popup*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
 .star-ratings {
   display: flex;
   align-items: center;
@@ -157,4 +185,3 @@ progress::-webkit-progress-value {
   .star-rating .fa-star.checked {
     color: orange; /* Aktive Sterne */
   }
-
