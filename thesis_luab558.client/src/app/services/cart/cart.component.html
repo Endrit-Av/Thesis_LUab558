@@ -14,9 +14,9 @@
                    [routerLink]="['/product', item.product.productName, item.product.color, item.product.ram, item.product.physicalMemory]">
             </div>
             <div class="col-md-3">
-              <p class="lead fw-normal mb-2">{{ item.product.brand }} {{ item.product.productName }}</p>
-              <p class="mb-0"><span class="text-muted">Speicherplatz: </span>{{ item.product.physicalMemory }}</p>
-              <p class="mb-0"><span class="text-muted">Arbeitsspeicher: </span>{{ item.product.ram }}</p>
+              <p class="lead fw-normal mb-2 fw-bold">{{ item.product.brand }} {{ item.product.productName }}</p>
+              <p class="mb-0"><span class="text-muted">Speicherplatz: </span>{{ item.product.physicalMemory }} GB</p>
+              <p class="mb-0"><span class="text-muted">Arbeitsspeicher: </span>{{ item.product.ram }} GB</p>
               <p class="mb-0"><span class="text-muted">Farbe: </span>{{ item.product.color }}</p>
             </div>
             <div class="col-md-2 offset-1">

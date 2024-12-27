@@ -27,24 +27,15 @@ namespace Thesis_LUab558.Server.Services
 
         public async Task<IEnumerable<ReviewDto>> GetReviewsByProductIdAsync(int productId)
         {
-            var reviews = await (from review in _context.Reviews
-                                 join user in _context.Users
-                                 on review.UserId equals user.UserId
-                                 where review.ProductId == productId
-                                 select new ReviewDto
-                                 {
-                                     ReviewId = review.ReviewId,
-                                     UserId = review.UserId,
-                                     ProductId = review.ProductId,
-                                     Rating = review.Rating,
-                                     ReviewText = review.ReviewText,
-                                     ReviewDate = review.ReviewDate,
-                                     UserName = user.FirstName
-                                 }).ToListAsync();
+            // Lade Reviews und binde die User-Navigationseigenschaft ein
+            var reviews = await _context.Reviews
+                .Include(r => r.User)
+                .Where(r => r.ProductId == productId)
+                .ToListAsync();
 
-            return reviews;
+            // Mappe die geladenen Reviews auf ReviewDto
+            return _mapper.Map<IEnumerable<ReviewDto>>(reviews);
         }
-
 
         public async Task<double> GetAverageRatingByProductIdAsync(int productId)
         {

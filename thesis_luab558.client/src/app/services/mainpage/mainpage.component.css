@@ -46,3 +46,8 @@
   #carouselMain .carousel-item img:hover {
     cursor: pointer;
   }
+
+.carousel-control-prev, .carousel-control-next {
+  width: auto;
+  padding: 0;
+}

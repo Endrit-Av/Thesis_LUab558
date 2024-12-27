@@ -39,6 +39,14 @@ namespace Thesis_LUab558.Server.Data
                 .HasForeignKey(c => c.ProductId) // Fremdschlüssel
                 .OnDelete(DeleteBehavior.Restrict); // Verhindert Löschen von Produkten, die in einem Cart sind
 
+            // Konfiguration für die Review-Entität
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User) // Beziehung zur User-Entität
+                .WithMany() // Kein Rückverweis von User zu Review
+                .HasForeignKey(r => r.UserId) // Fremdschlüssel
+                .OnDelete(DeleteBehavior.Restrict); // Verhindert Löschen von Benutzern mit Reviews
+
+
             // Verweist auf die eigentlichen Tabellen
             modelBuilder.Entity<User>().ToTable("users");
 

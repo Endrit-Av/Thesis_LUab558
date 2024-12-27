@@ -95,7 +95,7 @@
         </div>
         <button *ngFor="let ram of availableRam"
                 [style.opacity]="isCurrentRam(ram) ? '1' : '0.5'"
-                style="width: 60px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
+                style="width: 80px; height: 40px; background-color: #333; color: white; border-radius: 5px; margin-right: 10px; font-weight: bold;"
                 [routerLink]="['/product', product.productName, product.color, ram, product.physicalMemory]">
           {{ ram }} GB
         </button>

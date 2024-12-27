@@ -26,11 +26,12 @@ export class CartService {
     return this.http.delete<void>(`${this.apiUrl}/remove?productId=${productId}`);
   }
 
-  increaseQuantity(productId: number): Observable<void> {
+  increaseQuantity(productId: number): Observable<void> { // Keine Funktion gerade --> beim cleanup löschen
     return this.http.post<void>(`${this.apiUrl}/add?productId=${productId}`, {});
   }
 
-  decreaseQuantity(productId: number): Observable<void> {
+  decreaseQuantity(productId: number): Observable<void> { // Keine Funktion gerade --> beim cleanup löschen
+    return this.http.post<void>(`${this.apiUrl}/add?productId=${productId}`, {});
     return this.http.put<void>(`${this.apiUrl}/decrease?productId=${productId}`, {});
   }
 

@@ -85,8 +85,8 @@ export class ProductPageComponent implements OnInit {
         this.mainpageService.getProductVariants(this.product.productName).subscribe(
           (variants) => {
             this.availableColors = variants.availableColors;
-            this.availableRam = variants.availableRam;
-            this.availableMemory = variants.availableMemory;
+            this.availableRam = variants.availableRam.sort((a: number, b: number) => a - b); //Sortierfunktion --> kleinste zahl als erstes
+            this.availableMemory = variants.availableMemory.sort((a: number, b: number) => a - b);
           },
           (error) => {
             console.error('Fehler beim Laden der Varianten:', error);

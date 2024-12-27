@@ -14,7 +14,8 @@ namespace Thesis_LUab558.Server.Mappings
             CreateMap<Image, ImageDto>();
             CreateMap<InvoiceDetail, InvoiceDetailDto>();
             CreateMap<InvoiceItem, InvoiceItemDto>();
-            CreateMap<Review, ReviewDto>();
+            CreateMap<Review, ReviewDto>()
+                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName)); // Benutzername übernehmen
             CreateMap<User, UserDto>();
             CreateMap<Wishlist, WishlistDto>();
         }

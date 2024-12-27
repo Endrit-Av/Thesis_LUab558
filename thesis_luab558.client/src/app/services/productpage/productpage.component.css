@@ -13,11 +13,18 @@
     max-height: 400px;
     margin: 0 auto;
     width: auto;
+
+    height: 400px; /* Feste Höhe */
+    object-fit: contain; /* Auf gegebenen Maßen skalieren */
   }
 
 .carousel-control-prev, .carousel-control-next {
   width: auto;
   padding: 0;
+}
+
+.carousel-control-prev {
+  left: 10px;
 }
 
 .thumbnail-row {

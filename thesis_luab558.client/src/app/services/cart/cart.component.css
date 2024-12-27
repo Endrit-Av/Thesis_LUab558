@@ -3,3 +3,17 @@ img:hover {
   transition: transform 0.3s ease;
   cursor: pointer;
 }
+
+.card {
+  min-height: 200px; /* Feste Mindesthöhe für die Karten */
+}
+
+  .card img {
+    width: 150px; /* Feste Breite */
+    height: 150px; /* Feste Höhe */
+    object-fit: contain; /* Bilder skalieren und Seitenverhältnis beibehalten */
+  }
+
+.btn-block {
+  width: 100% !important;
+}

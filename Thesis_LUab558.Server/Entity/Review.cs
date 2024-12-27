@@ -24,5 +24,9 @@ namespace Thesis_LUab558.Server.Models
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+
+        // Navigationseigenschaft für User
+        [ForeignKey("UserId")]
+        public User User { get; set; }
     }
 }
