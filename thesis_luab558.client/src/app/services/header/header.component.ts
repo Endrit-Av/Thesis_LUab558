@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   countCart: number = 0;
   countWishlist: number = 0;
   showPopup: boolean = false;
@@ -16,6 +17,14 @@ export class HeaderComponent {
   password: string = '';
   emailError: string = '';
   passwordError: string = '';
+
+  constructor(private cartService: CartService) { }
+
+  ngOnInit(): void {
+    this.cartService.cartCount$.subscribe(count => {
+      this.countCart = count; // Header-Zähler aktualisieren
+    });
+  }
 
   togglePopup(): void {
     this.showPopup = !this.showPopup;

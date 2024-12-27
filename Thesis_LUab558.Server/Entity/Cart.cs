@@ -18,5 +18,9 @@ namespace Thesis_LUab558.Server.Models
 
         [Column("added_to_cart_at")]
         public DateTime AddedToCartAt { get; set; }
+
+        // Navigationseigenschaft für Product
+        [ForeignKey("ProductId")]
+        public Product? Product { get; set; }
     }
 }

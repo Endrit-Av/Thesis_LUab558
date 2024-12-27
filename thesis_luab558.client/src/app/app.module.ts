@@ -12,6 +12,7 @@ import { ConditionsComponent } from './services/footer-hrefs/conditions/conditio
 import { DataProtectionComponent } from './services/footer-hrefs/data-protection/data-protection.component';
 import { ImprintComponent } from './services/footer-hrefs/imprint/imprint.component';
 import { ProductPageComponent } from './services/productpage/productpage.component';
+import { CartComponent } from './services/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ProductPageComponent } from './services/productpage/productpage.compone
     ConditionsComponent,
     DataProtectionComponent,
     ImprintComponent,
-    ProductPageComponent
+    ProductPageComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

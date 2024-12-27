@@ -32,6 +32,13 @@ namespace Thesis_LUab558.Server.Data
             // Setze das Standard-Schema auf "633867"
             modelBuilder.HasDefaultSchema("633867");
 
+            // Konfiguration für die Cart-Entität
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.Product) // Beziehung zur Product-Entität
+                .WithMany() // Kein Rückverweis von Product zu Cart
+                .HasForeignKey(c => c.ProductId) // Fremdschlüssel
+                .OnDelete(DeleteBehavior.Restrict); // Verhindert Löschen von Produkten, die in einem Cart sind
+
             // Verweist auf die eigentlichen Tabellen
             modelBuilder.Entity<User>().ToTable("users");
 

@@ -17,7 +17,8 @@ const PROXY_CONFIG = [
 
       "/api/mainpage",
       "/api/image", // Basisroute für die Image-API hinzufügen
-      "/api/review" // Basisroute für Review-API
+      "/api/review", // Basisroute für Review-API
+      "/api/cart"
     ],
     target: "https://localhost:7219",
     //retryOnError: true, // Wiederholt Anfragen bei Fehlern

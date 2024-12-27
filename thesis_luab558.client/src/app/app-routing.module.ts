@@ -5,6 +5,7 @@ import { DataProtectionComponent } from './services/footer-hrefs/data-protection
 import { ImprintComponent } from './services/footer-hrefs/imprint/imprint.component';
 import { MainpageComponent } from './services/mainpage/mainpage.component';
 import { ProductPageComponent } from './services/productpage/productpage.component';
+import { CartComponent } from './services/cart/cart.component';
 
 const routes: Routes = [
   { path: '', component: MainpageComponent }, // Standardroute
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   //{ path: 'product/:id', component: ProductPageComponent },
   { path: 'product/:productName/:color/:ram/:memory', component: ProductPageComponent },
+  { path: 'cart', component: CartComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

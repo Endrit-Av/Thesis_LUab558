@@ -38,41 +38,44 @@
       <br />
 
       <!-- Review -->
-        <div class="star-rating">
-          <!-- Popup -->
-          <div class="popup-overlay" *ngIf="popupVisible" (click)="closePopup()">
-            <div class="popup" (click)="$event.stopPropagation()">
-              <div class="popup-header mb-3">
-                <h2>Bewertungen</h2>
-                <span class="popup-close" (click)="closePopup()">
-                  <i class="fa fa-times" aria-hidden="true"></i>
-                </span>
-              </div>
-
-              <div *ngFor="let rating of starRatings" class="star-ratings">
-                <div>{{ rating.stars }} Sterne</div>
-                <div style="flex-grow: 1; margin: 0 10px;">
-                  <progress class="progress-bar" [value]="rating.percentage" max="100"></progress>
-                </div>
-                <div class="percentage">{{ rating.percentage }}%</div>
-              </div>
-
-              <a href="/allReviewsLink" style="text-decoration: none; color: blue; display: block; margin-top: 10px;">
-                Alle Bewertungen ansehen ({{ totalReviews }})
-              </a>
+      <div class="star-rating">
+        <!-- Popup -->
+        <div class="popup-overlay" *ngIf="popupVisible" (click)="closePopup()">
+          <div class="popup" (click)="$event.stopPropagation()">
+            <div class="popup-header mb-3">
+              <h2>Bewertungen</h2>
+              <span class="popup-close" (click)="closePopup()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </span>
             </div>
-          </div>
 
-          <!-- Popup Button -->
-          <a (click)="showPopup()">
-            <p>
-              <span *ngFor="let star of stars" class="fa fa-star" [class.checked]="star <= averageRating"></span>
-            </p>
-          </a>
+            <div *ngFor="let rating of starRatings" class="star-ratings">
+              <div>{{ rating.stars }} Sterne</div>
+              <div style="flex-grow: 1; margin: 0 10px;">
+                <progress class="progress-bar" [value]="rating.percentage" max="100"></progress>
+              </div>
+              <div class="percentage">{{ rating.percentage }}%</div>
+            </div>
+
+            <a href="/allReviewsLink" style="text-decoration: none; color: blue; display: block; margin-top: 10px;">
+              Alle Bewertungen ansehen ({{ totalReviews }})
+            </a>
+          </div>
         </div>
+
+        <!-- Popup Button -->
+        <a (click)="showPopup()">
+          <p>
+            <span *ngFor="let star of stars" class="fa fa-star" [class.checked]="star <= averageRating"></span>
+          </p>
+        </a>
+      </div>
 
       <!-- Product Price -->
       <p class="product-price" style="color:black;">Preis: {{ product.price | currency: 'EUR':'symbol':'1.0-0' }}</p>
+
+      <!-- Out of Stock-->
+      <p *ngIf="product.stock <= 0" class="text-danger">Derzeit leider nicht verfügbar</p>
 
       <!-- Colors -->
       <div>
@@ -80,7 +83,6 @@
                 [style.backgroundColor]="translateColor(color)"
                 [style.border]="isCurrentColor(color) ? '2px solid black' : '2px solid white'"
                 style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
-                [disabled]="translateColor(color) === 'notInStock'"
                 [routerLink]="['/product', product.productName, color, product.ram, product.physicalMemory]">
         </button>
       </div>
@@ -117,7 +119,7 @@
       <!-- Description -->
       <p class="product-description">{{ product.description }}</p>
       <!-- Buttons -->
-      <button class="btn btn-primary" (click)="addToCart(product.productId)">
+      <button class="btn btn-primary" (click)="addToCart(product.productId)" [disabled]="product.stock <= 0">
         <img class="img-fluid" style="width: 30px; height: 30px; margin-right:10px;" src="https://localhost:7219/Images/Header/cart.png" /> in den Warenkorb
       </button>
       <button class="btn btn-outline-dark" id="shareBtn" [value]="product.shareUrl" (click)="copyURL(product.shareUrl)">

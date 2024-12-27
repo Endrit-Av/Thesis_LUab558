@@ -3,6 +3,7 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { MainpageService } from '../mainpage/mainpage.service';
 import { ReviewService } from '../review/review.service';
 import { ImageService } from '../image/image.service'
+import { CartService } from '../cart/cart.service';
 import { translateColor } from '../../utils/color-translator';
 
 @Component({
@@ -38,6 +39,7 @@ export class ProductPageComponent implements OnInit {
     private mainpageService: MainpageService,
     private imageService: ImageService,
     private reviewService: ReviewService,
+    private cartService: CartService,
     private router: Router //Aktuell ungenutzt --> bei cleanup entfernen
   ) { }
 
@@ -95,9 +97,23 @@ export class ProductPageComponent implements OnInit {
     );
   }
 
+  //addToCart(productId: number): void {
+  //  console.log('Produkt zum Warenkorb hinzugefügt:', productId);
+  //  //Später logik und backend-service einbinden
+  //}
+
   addToCart(productId: number): void {
-    console.log('Produkt zum Warenkorb hinzugefügt:', productId);
-    //Später logik und backend-service einbinden
+    if (this.product.stock > 0) {
+      this.cartService.addToCart(productId).subscribe(
+        () => {
+          this.cartService.updateCartCount(); //Updated Warenkorb zähler
+          this.product.stock--;
+        },
+        (error) => {
+          console.error('Fehler beim Hinzufügen zum Warenkorb:', error);
+        }
+      );
+    }
   }
 
   copyURL(url: string): void {

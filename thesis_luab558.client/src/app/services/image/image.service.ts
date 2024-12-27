@@ -10,7 +10,7 @@ export class ImageService {
 
   constructor(private http: HttpClient) { }
 
-  getImagesByProductId(productId: number): Observable<any[]> {
+  getImagesByProductId(productId: number): Observable<any[]> {              //Bei Cleanup entfernen
     return this.http.get<any[]>(`${this.apiUrl}/product/${productId}`);
   }
 

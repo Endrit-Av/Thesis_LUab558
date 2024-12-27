@@ -30,3 +30,18 @@
   top: 5px;
   right: 10px;
 }
+
+.itemCount {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 17px; /* width und height für die Größe des Kreises */
+  height: 17px;
+  text-align: center;
+  line-height: 17px; /* größe der Zahl im Kreis */
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
