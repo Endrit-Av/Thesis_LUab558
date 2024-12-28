@@ -6,12 +6,12 @@ using Thesis_LUab558.Server.Models;
 
 namespace Thesis_LUab558.Server.Services
 {
-    public class MainpageService
+    public class ProductService
     {
         private readonly NasDbContext _context;
         private readonly IMapper _mapper;
 
-        public MainpageService(NasDbContext context, IMapper mapper)
+        public ProductService(NasDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

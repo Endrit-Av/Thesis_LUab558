@@ -15,7 +15,7 @@ const PROXY_CONFIG = [
       //"/api/mainpage/product/variants",  // Neue Route für Produktvarianten
       //"/api/mainpage/details", // Routen werden nach mainpage abgedeckt, überflüssige spezifische routen später löschen
 
-      "/api/mainpage",
+      "/api/product",
       "/api/image", // Basisroute für die Image-API hinzufügen
       "/api/review", // Basisroute für Review-API
       "/api/cart"

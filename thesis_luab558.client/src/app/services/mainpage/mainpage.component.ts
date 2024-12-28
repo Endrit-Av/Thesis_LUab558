@@ -49,7 +49,6 @@ export class MainpageComponent implements OnInit {
   loadBannerImages(): void {
     this.mainpageService.getBannerImages().subscribe(
       (images) => {
-        console.log('Empfangene Banner-Bilder:', images); // Debug-Ausgabe
         this.bannerImages = images;
       },
       (error) => {

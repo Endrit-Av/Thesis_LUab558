@@ -7,13 +7,13 @@ namespace Thesis_LUab558.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MainpageController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly MainpageService _mainpageService;
+        private readonly ProductService _productService;
 
-        public MainpageController(MainpageService mainpageService)
+        public ProductController(ProductService productService)
         {
-            _mainpageService = mainpageService;
+            _productService = productService;
         }
 
         [HttpGet("categories")]
@@ -23,7 +23,7 @@ namespace Thesis_LUab558.Server.Controllers
         [SwaggerResponse(500, "Interner Serverfehler.")]
         public async Task<IActionResult> GetCategories()
         {
-            var categories = await _mainpageService.GetCategoriesAsync();
+            var categories = await _productService.GetCategoriesAsync();
             return Ok(categories);
         }
 
@@ -34,7 +34,7 @@ namespace Thesis_LUab558.Server.Controllers
         [SwaggerResponse(500, "Interner Serverfehler.")]
         public async Task<IActionResult> GetProductsByCategory(string category)
         {
-            var products = await _mainpageService.GetProductsByCategoryAsync(category);
+            var products = await _productService.GetProductsByCategoryAsync(category);
             if (products == null || !products.Any())
             {
                 return NotFound("Keine Produkte für diese Kategorie gefunden.");
@@ -50,7 +50,7 @@ namespace Thesis_LUab558.Server.Controllers
         {
             try
             {
-                var images = _mainpageService.GetBannerImages();
+                var images = _productService.GetBannerImages();
                 return Ok(images);
             }
             catch (DirectoryNotFoundException ex)
@@ -68,7 +68,7 @@ namespace Thesis_LUab558.Server.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductById(int id)
         {
-            var product = await _mainpageService.GetProductByIdAsync(id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null) return NotFound("Produkt nicht gefunden.");
             return Ok(product);
         }
@@ -78,7 +78,7 @@ namespace Thesis_LUab558.Server.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductVariants(string productName)
         {
-            var variants = await _mainpageService.GetProductVariantsAsync(productName);
+            var variants = await _productService.GetProductVariantsAsync(productName);
             if (variants == null) return NotFound("Keine Varianten gefunden.");
             return Ok(variants);
         }
@@ -88,7 +88,7 @@ namespace Thesis_LUab558.Server.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductDetails([FromQuery] string productName, [FromQuery] string color, [FromQuery] int ram, [FromQuery] int physicalMemory)
         {
-            var product = await _mainpageService.GetProductDetailsAsync(productName, color, ram, physicalMemory);
+            var product = await _productService.GetProductDetailsAsync(productName, color, ram, physicalMemory);
             if (product == null) return NotFound("Produkt nicht gefunden.");
             return Ok(product);
         }
