@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-data-protection',
@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './data-protection.component.html',
   styleUrls: ['./data-protection.component.css']
 })
-export class DataProtectionComponent {
+export class DataProtectionComponent implements OnInit {
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+  }
 
 }

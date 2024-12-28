@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-conditions',
@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './conditions.component.html',
   styleUrls: ['./conditions.component.css']
 })
-export class ConditionsComponent {
+export class ConditionsComponent implements OnInit {
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+  }
 
 }
