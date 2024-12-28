@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Thesis_LUab558.Server.Services;
 
 namespace Thesis_LUab558.Server.Controllers
@@ -19,6 +20,27 @@ namespace Thesis_LUab558.Server.Controllers
         {
             var images = await _imageService.GetImagesByProductAttributesAsync(productName, color);
             return Ok(images);
+        }
+
+        [HttpGet("banner-images")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(200, "Bilder erfolgreich geladen.")]
+        public IActionResult GetBannerImages()
+        {
+            try
+            {
+                var images = _imageService.GetBannerImages();
+                return Ok(images);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ein Fehler ist aufgetreten: " + ex.Message);
+            }
         }
     }
 }

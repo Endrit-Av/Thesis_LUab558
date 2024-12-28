@@ -17,4 +17,8 @@ export class ImageService {
   getImagesByAttributes(productName: string, color: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/attributes?productName=${productName}&color=${color}`);
   }
+
+  getBannerImages(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/banner-images`);
+  }
 }

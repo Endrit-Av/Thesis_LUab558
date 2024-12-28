@@ -40,5 +40,21 @@ namespace Thesis_LUab558.Server.Services
             // Schritt 4: Mappe die Bilder auf ImageDto
             return _mapper.Map<IEnumerable<ImageDto>>(images);
         }
+
+        public List<string> GetBannerImages()
+        {
+            var bannerDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", "Banner");
+            if (!Directory.Exists(bannerDirectory))
+            {
+                throw new DirectoryNotFoundException("Banner-Ordner nicht gefunden.");
+            }
+
+            var images = Directory.GetFiles(bannerDirectory)
+                                  .Select(Path.GetFileName)
+                                  .Select(fileName => $"https://localhost:7219/Images/Banner/{fileName}")
+                                  .ToList();
+
+            return images;
+        }
     }
 }

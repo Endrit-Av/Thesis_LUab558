@@ -19,10 +19,6 @@ export class MainpageService {
     return this.http.get<any[]>(`${this.apiUrl}/products/${category}`);
   }
 
-  getBannerImages(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/banner-images`);
-  }
-
   //Diese Funktionen in einen anderen Service später umziehen
   getProductById(productId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/product/${productId}`);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainpageService } from './mainpage.service';
+import { ImageService } from '../image/image.service'
 
 @Component({
   selector: 'app-mainpage',
@@ -13,7 +14,7 @@ export class MainpageComponent implements OnInit {
   products: { [key: string]: any[] } = {};
   bannerImages: string[] = [];
 
-  constructor(private mainpageService: MainpageService) { }
+  constructor(private mainpageService: MainpageService, private imageService: ImageService) { }
 
   ngOnInit(): void {
     this.loadCategories();
@@ -47,7 +48,7 @@ export class MainpageComponent implements OnInit {
   }
 
   loadBannerImages(): void {
-    this.mainpageService.getBannerImages().subscribe(
+    this.imageService.getBannerImages().subscribe(
       (images) => {
         this.bannerImages = images;
       },
