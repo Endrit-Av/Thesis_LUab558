@@ -45,7 +45,7 @@ namespace Thesis_LUab558.Server.Services
                 cartItem.Quantity++;
             }
 
-            // Reduziere den Vorrat
+            // Reduziert den Vorrat
             product.Stock--;
 
             await _context.SaveChangesAsync();
@@ -55,7 +55,7 @@ namespace Thesis_LUab558.Server.Services
 
         public async Task RemoveFromCartAsync(int productId)
         {
-            // Finde das Cart-Item basierend auf der ProductId und Dummy-User-ID
+            // Findet das Cart-Item basierend auf der ProductId und Dummy-User-ID
             var cartItem = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == productId && c.UserId == 0);
 
             if (cartItem == null)
@@ -63,7 +63,7 @@ namespace Thesis_LUab558.Server.Services
                 throw new InvalidOperationException("Das Produkt befindet sich nicht im Warenkorb.");
             }
 
-            // Erhöhe den Vorrat basierend auf der reservierten Menge
+            // Erhöht den Vorrat basierend auf der reservierten Menge
             var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
             if (product != null)
             {

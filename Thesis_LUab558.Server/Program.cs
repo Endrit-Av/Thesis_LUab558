@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("FrontendPolicy", policy =>
     {
         policy.WithOrigins("https://localhost:54495", "https://127.0.0.1:54495") // Oder allgemein: .AllowAnyOrigin() Erlaubt alle Ursprünge
-              .WithMethods("GET", "POST") //.AllowAnyMethod() Erlaubt alle HTTP-Methoden (GET, POST, etc.)
+              .WithMethods("GET", "POST", "DELETE") //.AllowAnyMethod() Erlaubt alle HTTP-Methoden (GET, POST, etc.)
               .WithHeaders("Content-Type", "Authorization");  //.AllowAnyHeader(); Erlaubt alle Header
     });
 });

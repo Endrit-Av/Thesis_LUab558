@@ -27,7 +27,7 @@ namespace Thesis_LUab558.Server.Services
 
         public async Task<IEnumerable<ReviewDto>> GetReviewsByProductIdAsync(int productId)
         {
-            // Lade Reviews und binde die User-Navigationseigenschaft ein
+            // Lade Reviews und bindet die User-Navigationseigenschaft mit ein
             var reviews = await _context.Reviews
                 .Include(r => r.User)
                 .Where(r => r.ProductId == productId)

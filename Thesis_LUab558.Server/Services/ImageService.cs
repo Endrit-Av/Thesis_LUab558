@@ -22,11 +22,11 @@ namespace Thesis_LUab558.Server.Services
             // Schritt 1: Finde die product_id basierend auf product_name und color
             var productId = await _context.Products
                 .Where(p => p.ProductName.ToLower() == productName.ToLower() && p.Color.ToLower() == color.ToLower())
-                .OrderBy(p => p.ProductId) // Sortiere nach product_id, falls es mehrere Einträge gibt
+                .OrderBy(p => p.ProductId) // Sortiere nach product_id, da es mehrere Einträge gibt
                 .Select(p => p.ProductId)
                 .LastOrDefaultAsync(); // Nimm die höchste product_id
 
-            // Schritt 2: Falls keine product_id gefunden wurde, gib eine leere Liste zurück
+            // Schritt 2: Falls keine product_id gefunden wurde, gibt es eine leere Liste zurück
             if (productId == 0)
             {
                 return new List<ImageDto>();
