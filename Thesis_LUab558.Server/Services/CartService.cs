@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Thesis_LUab558.Server.Data;
 using Thesis_LUab558.Server.DTO;
-using Thesis_LUab558.Server.Models;
+using Thesis_LUab558.Server.Entity;
 
 namespace Thesis_LUab558.Server.Services
 {
@@ -86,11 +86,8 @@ namespace Thesis_LUab558.Server.Services
 
             foreach (var dto in cartItemsDto)
             {
-                var cartItem = cartItems.First(p => p.ProductId == dto.ProductId);
-
-                var sanitizedProductName = cartItem.Product.ProductName.Replace("Galaxy", "", StringComparison.OrdinalIgnoreCase).Trim();
-                dto.Product.ImageUrl = $"https://localhost:7219/Images/ProductMain/{sanitizedProductName.Replace(" ", "_").ToLower()}_{cartItem.Product.Color.ToLower()}_main.jpeg";
-
+                var sanitizedProductName = dto.Product.ProductName.Replace("Galaxy", "", StringComparison.OrdinalIgnoreCase).Trim();
+                dto.Product.ImageUrl = $"https://localhost:7219/Images/ProductMain/{sanitizedProductName.Replace(" ", "_").ToLower()}_{dto.Product.Color.ToLower()}_main.jpeg";
             }
 
             return cartItemsDto;

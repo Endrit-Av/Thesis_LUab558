@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Thesis_LUab558.Server.Models
+namespace Thesis_LUab558.Server.Entity
 {
+    [Table("users")]
     public class User
     {
         [Column("user_id")]

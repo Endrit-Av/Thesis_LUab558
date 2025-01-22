@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Thesis_LUab558.Server.Data;
 using Thesis_LUab558.Server.DTO;
-using Thesis_LUab558.Server.Models;
 
 namespace Thesis_LUab558.Server.Services
 {
@@ -41,12 +40,9 @@ namespace Thesis_LUab558.Server.Services
 
             foreach (var dto in productDtos)
             {
-                var product = products.First(p => p.ProductId == dto.ProductId);
-
-                var sanitizedProductName = product.ProductName.Replace("Galaxy", "", StringComparison.OrdinalIgnoreCase).Trim();
-                dto.ImageUrl = $"https://localhost:7219/Images/ProductMain/{sanitizedProductName.Replace(" ", "_").ToLower()}_{product.Color.ToLower()}_main.jpeg";
-
-                dto.Description = GetDescriptionFirstSentence(product.Description);
+                var sanitizedProductName = dto.ProductName.Replace("Galaxy", "", StringComparison.OrdinalIgnoreCase).Trim();
+                dto.ImageUrl = $"https://localhost:7219/Images/ProductMain/{sanitizedProductName.Replace(" ", "_").ToLower()}_{dto.Color.ToLower()}_main.jpeg";
+                dto.Description = GetDescriptionFirstSentence(dto.Description);
             }
 
             return productDtos;
@@ -59,18 +55,6 @@ namespace Thesis_LUab558.Server.Services
             return sentences.Length > 0 ? sentences[0] : "Keine Beschreibung verfügbar.";
         }
 
-        public async Task<ProductDto?> GetProductByIdAsync(int id)
-        {
-            var product = await _context.Products
-                //.Include(p => p.Images) // Lade Bilder mit
-                .FirstOrDefaultAsync(p => p.ProductId == id);
-
-            if (product == null) return null;
-
-            var dto = _mapper.Map<ProductDto>(product);
-            //dto.Images = product.Images.Select(img => Convert.ToBase64String(img.ImageData)).ToList();
-            return dto;
-        }
         public async Task<ProductVariantDto> GetProductVariantsAsync(string productName)
         {
             var variants = await _context.Products

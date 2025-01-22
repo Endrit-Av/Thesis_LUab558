@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Thesis_LUab558.Server.DTO;
-using Thesis_LUab558.Server.Models;
+using Thesis_LUab558.Server.Entity;
 
 namespace Thesis_LUab558.Server.Mappings
 {

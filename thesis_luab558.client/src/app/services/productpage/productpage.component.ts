@@ -40,7 +40,6 @@ export class ProductPageComponent implements OnInit {
     private imageService: ImageService,
     private reviewService: ReviewService,
     private cartService: CartService,
-    private router: Router //Aktuell ungenutzt --> bei cleanup entfernen
   ) { }
 
   ngOnInit(): void {
@@ -98,11 +97,6 @@ export class ProductPageComponent implements OnInit {
       }
     );
   }
-
-  //addToCart(productId: number): void {
-  //  console.log('Produkt zum Warenkorb hinzugefügt:', productId);
-  //  //Später logik und backend-service einbinden
-  //}
 
   addToCart(productId: number, productName: string,): void {
     if (this.product.stock > 0) {

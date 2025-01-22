@@ -13,7 +13,6 @@ const routes: Routes = [
   { path: 'conditions', component: ConditionsComponent },
   { path: 'data-protection', component: DataProtectionComponent },
   { path: 'imprint', component: ImprintComponent },
-  //{ path: 'product/:id', component: ProductPageComponent },
   { path: 'product/:productName/:color/:ram/:memory', component: ProductPageComponent },
   { path: 'cart', component: CartComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }

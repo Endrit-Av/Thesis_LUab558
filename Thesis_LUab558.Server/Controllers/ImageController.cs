@@ -16,6 +16,7 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpGet("attributes")]
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         public async Task<IActionResult> GetImagesByAttributes(string productName, string color)
         {
             var images = await _imageService.GetImagesByProductAttributesAsync(productName, color);
@@ -23,6 +24,7 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpGet("banner-images")]
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "Bilder erfolgreich geladen.")]

@@ -16,15 +16,6 @@ namespace Thesis_LUab558.Server.Services
             _mapper = mapper;
         }
 
-        //public async Task<IEnumerable<ReviewDto>> GetReviewsByProductIdAsync(int productId)
-        //{
-        //    var reviews = await _context.Reviews
-        //        .Where(r => r.ProductId == productId)
-        //        .ToListAsync();
-
-        //    return _mapper.Map<IEnumerable<ReviewDto>>(reviews);
-        //}
-
         public async Task<IEnumerable<ReviewDto>> GetReviewsByProductIdAsync(int productId)
         {
             // Lade Reviews und bindet die User-Navigationseigenschaft mit ein

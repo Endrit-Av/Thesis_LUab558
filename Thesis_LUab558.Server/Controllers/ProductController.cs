@@ -17,6 +17,7 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpGet("categories")]
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)] // Cache für 5 Minuten
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200)]
@@ -28,6 +29,7 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpGet("products/{category}")]
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "Die Produkte dieser Kategorie wurden erfolgreich geladen.", typeof(IEnumerable<ProductDto>))]
@@ -42,17 +44,8 @@ namespace Thesis_LUab558.Server.Controllers
             return Ok(products);
         }
 
-        [HttpGet("product/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetProductById(int id)
-        {
-            var product = await _productService.GetProductByIdAsync(id);
-            if (product == null) return NotFound("Produkt nicht gefunden.");
-            return Ok(product);
-        }
-
         [HttpGet("product/variants/{productName}")]
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductVariants(string productName)
@@ -63,6 +56,7 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpGet("product/details")]
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductDetails([FromQuery] string productName, [FromQuery] string color, [FromQuery] int ram, [FromQuery] int physicalMemory)

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; // Importiere FormsModule für den Header
@@ -27,11 +27,12 @@ import { CartComponent } from './services/cart/cart.component';
     CartComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule,
+    BrowserModule,
     AppRoutingModule,
     FormsModule // Formsmodule für den Header
   ],
   providers: [
+    provideHttpClient(),
     { provide: LOCALE_ID, useValue: 'de-DE' } // Setzt 'de-DE' als Standard-Lokalisierung
   ],
   bootstrap: [AppComponent]

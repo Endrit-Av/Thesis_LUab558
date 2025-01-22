@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Thesis_LUab558.Server.Models;
-using Image = Thesis_LUab558.Server.Models.Image;
+using Thesis_LUab558.Server.Entity;
+using Image = Thesis_LUab558.Server.Entity.Image;
 
 namespace Thesis_LUab558.Server.Data
 
@@ -45,24 +45,6 @@ namespace Thesis_LUab558.Server.Data
                 .WithMany() // Kein Rückverweis von User zu Review
                 .HasForeignKey(r => r.UserId) // Fremdschlüssel
                 .OnDelete(DeleteBehavior.Restrict); // Verhindert Löschen von Benutzern mit Reviews
-
-
-            // Verweist auf die eigentlichen Tabellen
-            modelBuilder.Entity<User>().ToTable("users");
-
-            modelBuilder.Entity<Product>().ToTable("products");
-
-            modelBuilder.Entity<Wishlist>().ToTable("wishlist");
-
-            modelBuilder.Entity<Review>().ToTable("reviews");
-
-            modelBuilder.Entity<Cart>().ToTable("cart");
-
-            modelBuilder.Entity<InvoiceDetail>().ToTable("invoice_details");
-
-            modelBuilder.Entity<InvoiceItem>().ToTable("invoice_items");
-
-            modelBuilder.Entity<Image>().ToTable("images");
         }
     }
 }

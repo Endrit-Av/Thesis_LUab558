@@ -19,11 +19,6 @@ export class MainpageService {
     return this.http.get<any[]>(`${this.apiUrl}/products/${category}`);
   }
 
-  //Diese Funktionen in einen anderen Service später umziehen
-  getProductById(productId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/product/${productId}`);
-  }
-
   getProductVariants(productName: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/product/variants/${productName}`);
   }
