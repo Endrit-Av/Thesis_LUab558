@@ -28,7 +28,7 @@ namespace Thesis_LUab558.Server.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("products/{category}")]
+        [HttpGet("{category}")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -44,7 +44,7 @@ namespace Thesis_LUab558.Server.Controllers
             return Ok(products);
         }
 
-        [HttpGet("product/variants/{productName}")]
+        [HttpGet("variants/{productName}")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -55,7 +55,7 @@ namespace Thesis_LUab558.Server.Controllers
             return Ok(variants);
         }
 
-        [HttpGet("product/details")]
+        [HttpGet("details")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

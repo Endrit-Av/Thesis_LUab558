@@ -14,7 +14,7 @@ namespace Thesis_LUab558.Server.Controllers
             _reviewService = reviewService;
         }
 
-        [HttpGet("{productId}/reviews")]
+        [HttpGet("{productId}")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         public async Task<IActionResult> GetReviews(int productId)
         {
@@ -22,7 +22,7 @@ namespace Thesis_LUab558.Server.Controllers
             return Ok(reviews);
         }
 
-        [HttpGet("{productId}/average-rating")]
+        [HttpGet("average-rating/{productId}")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         public async Task<IActionResult> GetAverageRating(int productId)
         {

@@ -1,4 +1,4 @@
-// src/app/services/mainpage/mainpage.service.ts
+// src/app/services/product.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MainpageService {
+export class ProductService {
   private apiUrl = '/api/product';
 
   constructor(private http: HttpClient) { }
@@ -16,15 +16,15 @@ export class MainpageService {
   }
 
   getProductsByCategory(category: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/products/${category}`);
+    return this.http.get<any[]>(`${this.apiUrl}/${category}`);
   }
 
   getProductVariants(productName: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/product/variants/${productName}`);
+    return this.http.get<any>(`${this.apiUrl}/variants/${productName}`);
   }
 
   getProductByAttributes(productName: string, color: string, ram: number, physicalMemory: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/product/details`, {
+    return this.http.get<any>(`${this.apiUrl}/details`, {
       params: { productName, color, ram: ram.toString(), physicalMemory: physicalMemory.toString() }
     });
   }

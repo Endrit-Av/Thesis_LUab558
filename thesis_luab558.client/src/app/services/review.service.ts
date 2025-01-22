@@ -11,10 +11,10 @@ export class ReviewService {
   constructor(private http: HttpClient) { }
 
   getReviewsByProductId(productId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${productId}/reviews`);
+    return this.http.get<any[]>(`${this.apiUrl}/${productId}`);
   }
 
   getAverageRatingByProductId(productId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${productId}/average-rating`);
+    return this.http.get<any>(`${this.apiUrl}/average-rating/${productId}`);
   }
 }

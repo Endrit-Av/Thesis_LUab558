@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConditionsComponent } from './services/footer-hrefs/conditions/conditions.component';
-import { DataProtectionComponent } from './services/footer-hrefs/data-protection/data-protection.component';
-import { ImprintComponent } from './services/footer-hrefs/imprint/imprint.component';
-import { MainpageComponent } from './services/mainpage/mainpage.component';
-import { ProductPageComponent } from './services/productpage/productpage.component';
-import { CartComponent } from './services/cart/cart.component';
+import { ConditionsComponent } from './components/footer-hrefs/conditions/conditions.component';
+import { DataProtectionComponent } from './components/footer-hrefs/data-protection/data-protection.component';
+import { ImprintComponent } from './components/footer-hrefs/imprint/imprint.component';
+import { MainpageComponent } from './components/mainpage/mainpage.component';
+import { ProductPageComponent } from './components/productpage/productpage.component';
+import { CartComponent } from './components/cart/cart.component';
 
 const routes: Routes = [
   { path: '', component: MainpageComponent }, // Standardroute

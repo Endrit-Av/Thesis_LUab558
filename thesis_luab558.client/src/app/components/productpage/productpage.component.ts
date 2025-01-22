@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router} from '@angular/router';
-import { MainpageService } from '../mainpage/mainpage.service';
-import { ReviewService } from '../review/review.service';
-import { ImageService } from '../image/image.service'
-import { CartService } from '../cart/cart.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from '../../services/product.service';
+import { ReviewService } from '../../services/review.service';
+import { ImageService } from '../../services/image.service'
+import { CartService } from '../../services/cart.service';
 import { translateColor } from '../../utils/color-translator';
 
 @Component({
@@ -36,7 +36,7 @@ export class ProductPageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private mainpageService: MainpageService,
+    private productService: ProductService,
     private imageService: ImageService,
     private reviewService: ReviewService,
     private cartService: CartService,
@@ -68,7 +68,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   loadProductByAttributes(productName: string, color: string, ram: number, memory: number): void {
-    this.mainpageService.getProductByAttributes(productName, color, ram, memory).subscribe(
+    this.productService.getProductByAttributes(productName, color, ram, memory).subscribe(
       (data) => {
         this.product = data;
 
@@ -81,7 +81,7 @@ export class ProductPageComponent implements OnInit {
         this.loadAverageRating(productId);
 
         // Lade die Varianten basierend auf dem Produktnamen
-        this.mainpageService.getProductVariants(this.product.productName).subscribe(
+        this.productService.getProductVariants(this.product.productName).subscribe(
           (variants) => {
             this.availableColors = variants.availableColors;
             this.availableRam = variants.availableRam.sort((a: number, b: number) => a - b); //Sortierfunktion --> kleinste zahl als erstes
