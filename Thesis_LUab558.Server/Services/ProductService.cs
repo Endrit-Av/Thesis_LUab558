@@ -57,7 +57,7 @@ namespace Thesis_LUab558.Server.Services
         {
             if (string.IsNullOrWhiteSpace(description)) return "Keine Beschreibung verfügbar.";
             var sentences = description.Split(new[] { ". " }, StringSplitOptions.RemoveEmptyEntries);
-            return sentences.Length > 0 ? sentences[0] : "Keine Beschreibung verfügbar.";
+            return sentences.Length > 0 ? sentences[0]  + "." : "Keine Beschreibung verfügbar.";
         }
 
         public async Task<ProductVariantDto> GetProductVariantsAsync(string productName)

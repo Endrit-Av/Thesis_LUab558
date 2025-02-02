@@ -290,7 +290,7 @@
 //        {
 //            int[] memory = { 128, 256 };
 //            string[] colors = { "Weiß", "Schwarz", "Lila" };
-//            string description = "Das iPhone 14 Pro beeindruckt mit einem kraftvollen A16 Bionic Chip, 6 GB RAM und einem brillanten Display.";
+//            string description = "Das iPhone 14 überzeugt mit dem leistungsstarken A16 Bionic Chip, der für reibungslose Performance sorgt. Das 6,1-Zoll Super Retina XDR Display bietet beeindruckende Bildqualität. Kabelloses Laden bis zu 15 W und schnelles Aufladen sind praktische Funktionen. Face ID, LiDAR Scanner und Barometer ergänzen die Ausstattung des iPhone 14 für ein rundum beeindruckendes Smartphone-Erlebnis.";
 //            foreach (int currentMemory in memory)
 //            {
 //                double basePrice = currentMemory == 128 ? 699.99 : 899.99;
@@ -306,7 +306,7 @@
 //        {
 //            int[] memory = { 128, 256 };
 //            string[] colors = { "Weiß", "Schwarz", "Lila" };
-//            string description = "Das iPhone 14 Pro Max bietet beeindruckende Leistung, kabelloses Laden und ein erstklassiges Display.";
+//            string description = "Das iPhone 14 Pro Max beeindruckt mit einem kraftvollen A16 Bionic Chip, der mühelos anspruchsvolle Aufgaben bewältigt. Das 6,7-Zoll Super Retina XDR Display bietet atemberaubende visuelle Erfahrungen, während die Batterie mit kabellosem Laden bis zu 15 W und schnellem Aufladen punktet. Mit Face ID, LiDAR Scanner und Barometer ist das iPhone 14 Pro Max ein technologisches Meisterwerk.";
 //            foreach (int currentMemory in memory)
 //            {
 //                double basePrice = currentMemory == 128 ? 1099.99 : 1499.99;
@@ -319,7 +319,7 @@
 
 //        private static void InsertAirPodsPro(NpgsqlConnection connection, string schemaName)
 //        {
-//            string description = "AirPods Pro bieten aktives Noise-Cancelling, brillanten Sound und nahtlose Integration mit Apple-Geräten.";
+//            string description = "Die geringe Verzerrung und die speziell entwickelten Treiber und Verstärker liefern brillante Höhen und Tiefe, satte Bässe in beeindruckender Klarheit. Bis zu 30 Std. Wiedergabe insgesamt mit eingeschalteter Aktiver Geräuschunterdrückung und dem MagSafe Ladecase – 6 Std. mehr als bei den AirPods Pro (1. Generation). Durch die In-Ear-Erkennung und das automatische Wechseln zwischen Geräten funktioniert alles nahtlos.";
 //            InsertProduct(connection, schemaName, "Apple", "Kopfhörer", "AirPods Pro 2. Generation", 249.99, null, null, "Weiß", 23, description, null, "airpods");
 //        }
 
@@ -327,14 +327,14 @@
 //        {
 //            int[] memory = { 256, 512 };
 //            int[] ram = { 8, 16 };
+//            string description = "Das Apple MacBook Pro der neuesten Generation bietet erstklassige Leistung mit dem Apple M2 Chip und eine großzügige SSD für blitzschnelle Datenzugriffe. Das atemberaubende Retina Display mit hohem Kontrast und lebendigen Farben sorgt für ein herausragendes visuelles Erlebnis, während die lange Akkulaufzeit und das schlanke, leichte Design es zum perfekten Begleiter für unterwegs machen.";
 //            foreach (int currentMemory in memory)
 //            {
 //                foreach (int currentRam in ram)
 //                {
-//                    double price = currentMemory == 256 ? 1899.99 : 2199.99;
-//                    price += currentRam == 8 ? 200 : 300;
-//                    string description = $"Das MacBook Pro bietet eine {currentMemory} GB SSD, {currentRam} GB RAM und eine erstklassige Performance.";
-//                    InsertProduct(connection, schemaName, "Apple", "Notebook", "MacBook Pro", price, currentMemory, currentRam, "Silber", 238, description, "macOS", "MacBook");
+//                    double basePrice = currentMemory == 256 ? 1899.99 : 2199.99;
+//                    basePrice += currentRam == 8 ? 200 : 300;
+//                    InsertProduct(connection, schemaName, "Apple", "Notebook", "MacBook Pro", basePrice, currentMemory, currentRam, "Silber", 238, description, "macOS", "MacBook");
 //                }
 //            }
 //        }
@@ -343,14 +343,14 @@
 //        {
 //            int[] memory = { 256, 512 };
 //            int[] ram = { 8, 16 };
+//            string description = "Das Apple MacBook Air mit dem revolutionären Apple M1 Chip bietet herausragende Leistung, eine SSD und einen leistungsstarken CPU, ideal für unterwegs. Mit seinem schlanken und leichten Design, dem beeindruckenden Retina Display und der langen Akkulaufzeit ist es die perfekte Wahl für produktives Arbeiten und Entertainment unterwegs.";
 //            foreach (int currentMemory in memory)
 //            {
 //                foreach (int currentRam in ram)
 //                {
-//                    double price = currentMemory == 256 ? 899.00 : 999.00;
-//                    price += currentRam == 8 ? 200 : 300;
-//                    string description = $"Das MacBook Air bietet eine {currentMemory} GB SSD, {currentRam} GB RAM und eine hervorragende Mobilität.";
-//                    InsertProduct(connection, schemaName, "Apple", "Notebook", "MacBook Air M1", price, currentMemory, currentRam, "Silber", 10, description, "macOS", "MacBook");
+//                    double basePrice = currentMemory == 256 ? 899.00 : 999.00;
+//                    basePrice += currentRam == 8 ? 200 : 300;
+//                    InsertProduct(connection, schemaName, "Apple", "Notebook", "MacBook Air M1", basePrice, currentMemory, currentRam, "Silber", 10, description, "macOS", "MacBook");
 //                }
 //            }
 //        }
@@ -358,7 +358,7 @@
 //        private static void InsertiPad(NpgsqlConnection connection, string schemaName)
 //        {
 //            string[] colors = { "Grau", "Silber" };
-//            string description = "Das iPad 10.2 bietet ein beeindruckendes Display, großartige Leistung und lange Akkulaufzeit.";
+//            string description = "Das Apple iPad 10.2 Wi-Fi der 9ten Generation ist ein vielseitiges und leistungsstarkes Tablet. Es verfügt über ein beeindruckendes 10,2-Zoll Retina-Display, einen schnellen A13 Bionic Chip und läuft auf iPadOS 15. Mit 64 GB internem Speicher und einer Akkulaufzeit von bis zu 10 Stunden ist es ideal für Arbeit und Unterhaltung.";
 //            foreach (string currentColor in colors)
 //            {
 //                InsertProduct(connection, schemaName, "Apple", "Tablet", "iPad 10.2", 679.99, 64, 3, currentColor, 10, description, "iPadOS", "iPad");
@@ -368,7 +368,7 @@
 //        private static void InsertiPadAir(NpgsqlConnection connection, string schemaName)
 //        {
 //            string[] colors = { "Blau", "Lila", "Pink" };
-//            string description = "Das iPad Air bietet großartige Leistung, ein beeindruckendes Display und ein schlankes Design.";
+//            string description = "Das Apple iPad Air hebt deine Erlebnisse auf ein neues Level, egal ob du liest, Videos anschaust oder kreativ arbeitest. Mit seinem beeindruckenden 10,9-Zoll Liquid Retina Display, das fortschrittliche Technologien wie True Tone, einen großzügigen P3 Farbraum und eine Antireflex-Beschichtung bietet, tauchst du in eine Welt gestochen scharfer Farben und Details ein.";
 //            foreach (string currentColor in colors)
 //            {
 //                InsertProduct(connection, schemaName, "Apple", "Tablet", "iPad Air", 599.99, 64, 8, currentColor, 10, description, "iPadOS", "iPad");
@@ -380,7 +380,7 @@
 //        {
 //            int[] memory = { 128, 256 };
 //            string[] colors = { "Schwarz", "Blau" };
-//            string description = "Das Galaxy Z Fold5 bietet ein faltbares Display, hohe Leistung und ein innovatives Design.";
+//            string description = "Das Samsung Galaxy Z Fold5 ist ein leistungsstarkes Smartphone mit einem beeindruckenden 7,6-Zoll Dynamic AMOLED Touchscreen Display. Es verfügt über eine 50 MP + 12 MP + 10 MP Kamera mit Autofokus und 10-fach Zoom oder Fotolicht. Das Betriebssystem ist Android 13 in Kombination mit One UI 5.1 und KNOX 3.9.";
 //            foreach (int currentMemory in memory)
 //            {
 //                foreach (string currentColor in colors)
@@ -394,7 +394,7 @@
 //        private static void InsertGalaxyTabA8(NpgsqlConnection connection, string schemaName)
 //        {
 //            string[] colors = { "Grau", "Silber" };
-//            string description = "Das Galaxy Tab A8 bietet großartige Unterhaltungsmöglichkeiten und ein schlankes Design.";
+//            string description = "Das Samsung Galaxy Tab A8 Wi-Fi ist ein beeindruckendes 10,5-Zoll Tablet mit einem schlanken Design. Es bietet großartige Unterhaltungsmöglichkeiten, darunter Surround-Sound aus vier Lautsprechern, Apps und Spiele für die ganze Familie sowie Zugang zu Samsung TV Plus für vielfältige kostenlose Inhalte.";
 //            foreach (string currentColor in colors)
 //            {
 //                InsertProduct(connection, schemaName, "Samsung", "Tablet", "Galaxy Tab A8", 159.99, 32, 3, currentColor, 112, description, "Android", "Galaxy");
@@ -403,7 +403,7 @@
 
 //        private static void InsertGalaxyBook3(NpgsqlConnection connection, string schemaName)
 //        {
-//            string description = "Das Galaxy Book3 bietet hohe Leistung, ein brillantes Display und eine schlanke Bauweise.";
+//            string description = "Das Galaxy Book3 von Samsung ist ein 15,6-Zoll Notebook mit Full HD IPS-Display. Es wird von einem Intel® Core™ i5-1335U Prozessor mit bis zu 3,4 GHz, 8 GB LPDDR4x RAM und einer 512 GB SSD angetrieben. Vorinstalliert ist Windows® 11 Home. Mit USB- und HDMI-Schnittstellen für Peripheriegeräte, Frontkamera für Videoanrufe und einer beleuchteten Tastatur ist es ideal für unterwegs.";
 //            InsertProduct(connection, schemaName, "Samsung", "Notebook", "Galaxy Book3", 999.99, 256, 16, "Grau", 71, description, "Windows 11", "Galaxy");
 //        }
 
@@ -412,7 +412,7 @@
 //        {
 //            int[] memory = { 256, 512 };
 //            string[] colors = { "Schwarz", "Silber" };
-//            string description = "Das Huawei Mate 50 Pro bietet eine beeindruckende Kamera, hohe Leistung und ein elegantes Design.";
+//            string description = "Das Huawei Mate 50 Pro ist ein hochwertiges Smartphone mit beeindruckender Leistung und vielen Funktionen. Es verfügt über einen 17,12 cm großen Bildschirm (2616 x 1212 Pixel), einen Qualcomm Snapdragon 8+ Gen 1 Octa-Core-Prozessor, 8 GB RAM und bietet wahlweise 256 GB oder 512 GB internen Speicher.";
 //            foreach (int currentMemory in memory)
 //            {
 //                foreach (string currentColor in colors)
@@ -427,7 +427,7 @@
 //        {
 //            int[] memory = { 128, 256, 512 };
 //            string[] colors = { "Schwarz", "Weiß" };
-//            string description = "Das Huawei P60 Pro bietet ein beeindruckendes Display, hohe Leistung und eine hochwertige Kamera.";
+//            string description = "Das Huawei P60 Pro ist ein leistungsstarkes Smartphone mit einem 16,9 cm Full HD-Bildschirm (2700 x 1220 Pixel). Es wird von einem Qualcomm Snapdragon 8+ Gen 1 Octa-Core-Prozessor mit 3,2 GHz, 8 GB RAM und einer großen Speicherkapazität angetrieben. Die Kameras haben 48 MP (Hauptkamera), 13 MP (zweite Hauptkamera) und 13 MP (Frontkamera).";
 //            foreach (int currentMemory in memory)
 //            {
 //                foreach (string currentColor in colors)
@@ -440,14 +440,14 @@
 
 //        private static void InsertHuaweiMateBook16s(NpgsqlConnection connection, string schemaName)
 //        {
-//            string description = "Das Huawei MateBook 16s bietet beeindruckende Leistung, ein großes Display und ein schlankes Design.";
+//            string description = "Das Huawei MateBook 16s Notebook ist ein leistungsstarkes Laptop mit beeindruckenden technischen Spezifikationen. Es verfügt über einen 16-Zoll Bildschirm mit 2.5K-Auflösung und IPS-Display-Technologie. Die hohe Bildschirmhelligkeit und Farbtiefe bieten ein hervorragendes visuelles Erlebnis.";
 //            InsertProduct(connection, schemaName, "Huawei", "Notebook", "MateBook 16s", 1899.00, 1000, 16, "Silber", 152, description, "Windows 11 Home", "MateBook");
 //        }
 
 //        private static void InsertHuaweiMatePad(NpgsqlConnection connection, string schemaName)
 //        {
 //            int[] memory = { 128, 256, 512 };
-//            string description = "Das Huawei MatePad bietet großartige Leistung, ein beeindruckendes Display und Vielseitigkeit.";
+//            string description = "Das Huawei MatePad SE WiFi 4 Tablet ist ein leistungsstarkes Tablet mit beeindruckenden technischen Spezifikationen. Es verfügt über einen 10,4-Zoll großen Bildschirm mit einer Auflösung von 2000 x 1200 Pixeln und verwendet IPS-Technologie. Angetrieben wird es von einem Octa-Core Qualcomm Snapdragon 680 Prozessor.";
 //            foreach (int currentMemory in memory)
 //            {
 //                double price = currentMemory == 128 ? 249.00 : currentMemory == 256 ? 300.00 : 349.99;
