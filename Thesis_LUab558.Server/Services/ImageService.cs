@@ -19,25 +19,21 @@ namespace Thesis_LUab558.Server.Services
 
         public async Task<IEnumerable<ImageDto>> GetImagesByProductAttributesAsync(string productName, string color)
         {
-            // Schritt 1: Finde die product_id basierend auf product_name und color
             var productId = await _context.Products
                 .Where(p => p.ProductName.ToLower() == productName.ToLower() && p.Color.ToLower() == color.ToLower())
-                .OrderBy(p => p.ProductId) // Sortiere nach product_id, da es mehrere Einträge gibt
+                .OrderBy(p => p.ProductId) 
                 .Select(p => p.ProductId)
-                .LastOrDefaultAsync(); // Nimm die höchste product_id
+                .LastOrDefaultAsync(); 
 
-            // Schritt 2: Falls keine product_id gefunden wurde, gibt es eine leere Liste zurück
             if (productId == 0)
             {
                 return new List<ImageDto>();
             }
 
-            // Schritt 3: Lade die Bilder basierend auf der ermittelten product_id
             var images = await _context.Images
                 .Where(i => i.ProductId == productId)
                 .ToListAsync();
 
-            // Schritt 4: Mappe die Bilder auf ImageDto
             return _mapper.Map<IEnumerable<ImageDto>>(images);
         }
 

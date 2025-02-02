@@ -20,8 +20,6 @@ namespace Thesis_LUab558.Server.Controllers
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)] // Cache für 5 Minuten
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerResponse(200)]
-        [SwaggerResponse(500, "Interner Serverfehler.")]
         public async Task<IActionResult> GetCategories()
         {
             var categories = await _productService.GetCategoriesAsync();
@@ -30,10 +28,8 @@ namespace Thesis_LUab558.Server.Controllers
 
         [HttpGet("{category}")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerResponse(200, "Die Produkte dieser Kategorie wurden erfolgreich geladen.", typeof(IEnumerable<ProductDto>))]
-        [SwaggerResponse(500, "Interner Serverfehler.")]
         public async Task<IActionResult> GetProductsByCategory(string category)
         {
             var products = await _productService.GetProductsByCategoryAsync(category);
@@ -46,7 +42,7 @@ namespace Thesis_LUab558.Server.Controllers
 
         [HttpGet("variants/{productName}")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductVariantDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductVariants(string productName)
         {
@@ -57,7 +53,7 @@ namespace Thesis_LUab558.Server.Controllers
 
         [HttpGet("details")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductDetails([FromQuery] string productName, [FromQuery] string color, [FromQuery] int ram, [FromQuery] int physicalMemory)
         {

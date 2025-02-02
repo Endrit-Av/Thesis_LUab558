@@ -14,12 +14,12 @@ export class CartService {
     this.updateCartCountOnInit();
   }
 
-  addToCart(productId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add?productId=${productId}`, {});
-  }
-
   getCartItems(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/all`);
+  }
+
+  addToCart(productId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add?productId=${productId}`, {});
   }
 
   removeFromCart(productId: number): Observable<void> {

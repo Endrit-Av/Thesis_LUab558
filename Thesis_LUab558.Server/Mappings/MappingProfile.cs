@@ -9,13 +9,12 @@ namespace Thesis_LUab558.Server.Mappings
         public MappingProfile()
         {
             CreateMap<Product, ProductDto>();
-            CreateMap<Cart, CartDto>()
-                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product)); // Mappe das zugehörige Produkt
+            CreateMap<Cart, CartDto>();
             CreateMap<Image, ImageDto>();
             CreateMap<InvoiceDetail, InvoiceDetailDto>();
             CreateMap<InvoiceItem, InvoiceItemDto>();
             CreateMap<Review, ReviewDto>()
-                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName)); // Benutzername übernehmen
+                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName));
             CreateMap<User, UserDto>();
             CreateMap<Wishlist, WishlistDto>();
         }

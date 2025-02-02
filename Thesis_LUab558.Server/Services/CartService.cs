@@ -26,14 +26,13 @@ namespace Thesis_LUab558.Server.Services
                 throw new InvalidOperationException("Produkt ist nicht verfügbar.");
             }
 
-            // Prüfen, ob das Produkt bereits im Warenkorb ist
             var cartItem = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == productId);
 
             if (cartItem == null)
             {
                 cartItem = new Cart
                 {
-                    UserId = 0, // Dummy-User-ID
+                    UserId = 0,
                     ProductId = productId,
                     Quantity = 1,
                     AddedToCartAt = DateTime.UtcNow
@@ -45,7 +44,6 @@ namespace Thesis_LUab558.Server.Services
                 cartItem.Quantity++;
             }
 
-            // Reduziert den Vorrat
             product.Stock--;
 
             await _context.SaveChangesAsync();
@@ -55,7 +53,6 @@ namespace Thesis_LUab558.Server.Services
 
         public async Task RemoveFromCartAsync(int productId)
         {
-            // Findet das Cart-Item basierend auf der ProductId und Dummy-User-ID
             var cartItem = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == productId && c.UserId == 0);
 
             if (cartItem == null)
@@ -63,14 +60,12 @@ namespace Thesis_LUab558.Server.Services
                 throw new InvalidOperationException("Das Produkt befindet sich nicht im Warenkorb.");
             }
 
-            // Erhöht den Vorrat basierend auf der reservierten Menge
             var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
             if (product != null)
             {
                 product.Stock += cartItem.Quantity;
             }
 
-            // Entferne den Warenkorbeintrag vollständig
             _context.Carts.Remove(cartItem);
 
             await _context.SaveChangesAsync();
@@ -79,18 +74,23 @@ namespace Thesis_LUab558.Server.Services
         public async Task<IEnumerable<CartDto>> GetCartItemsAsync()
         {
             var cartItems = await _context.Carts
-                .Include(c => c.Product) // Lade Produktinformationen
+                .Include(c => c.Product)
                 .ToListAsync();
 
             var cartItemsDto = _mapper.Map<IEnumerable<CartDto>>(cartItems);
 
             foreach (var dto in cartItemsDto)
             {
-                var sanitizedProductName = dto.Product.ProductName.Replace("Galaxy", "", StringComparison.OrdinalIgnoreCase).Trim();
-                dto.Product.ImageUrl = $"https://localhost:7219/Images/ProductMain/{sanitizedProductName.Replace(" ", "_").ToLower()}_{dto.Product.Color.ToLower()}_main.jpeg";
+                dto.Product.ImageUrl = GenerateImageUrl(dto.Product.ProductName, dto.Product.Color);
             }
 
             return cartItemsDto;
+        }
+
+        private string GenerateImageUrl(string productName, string color)
+        {
+            var sanitizedProductName = productName.Replace("Galaxy", "", StringComparison.OrdinalIgnoreCase).Trim();
+            return $"https://localhost:7219/Images/ProductMain/{sanitizedProductName.Replace(" ", "_").ToLower()}_{color.ToLower()}_main.jpeg";
         }
 
     }

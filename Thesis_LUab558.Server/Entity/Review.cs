@@ -18,16 +18,15 @@ namespace Thesis_LUab558.Server.Entity
         public int Rating { get; set; }
 
         [Column("review_text")]
-        public string ReviewText { get; set; }
+        public string? ReviewText { get; set; }
 
         [Column("review_date")]
-        public string ReviewDate { get; set; }
+        public required string ReviewDate { get; set; }
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        // Navigationseigenschaft für User
         [ForeignKey("UserId")]
-        public User User { get; set; }
+        public required User User { get; set; }
     }
 }

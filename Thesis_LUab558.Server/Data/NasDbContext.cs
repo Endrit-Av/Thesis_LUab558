@@ -27,24 +27,20 @@ namespace Thesis_LUab558.Server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            // Setze das Standard-Schema auf "633867"
             modelBuilder.HasDefaultSchema("633867");
 
-            // Konfiguration für die Cart-Entität
             modelBuilder.Entity<Cart>()
-                .HasOne(c => c.Product) // Beziehung zur Product-Entität
-                .WithMany() // Kein Rückverweis von Product zu Cart
-                .HasForeignKey(c => c.ProductId) // Fremdschlüssel
-                .OnDelete(DeleteBehavior.Restrict); // Verhindert Löschen von Produkten, die in einem Cart sind
+                .HasOne(c => c.Product)
+                .WithMany()
+                .HasForeignKey(c => c.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Konfiguration für die Review-Entität
+            
             modelBuilder.Entity<Review>()
-                .HasOne(r => r.User) // Beziehung zur User-Entität
-                .WithMany() // Kein Rückverweis von User zu Review
-                .HasForeignKey(r => r.UserId) // Fremdschlüssel
-                .OnDelete(DeleteBehavior.Restrict); // Verhindert Löschen von Benutzern mit Reviews
+                .HasOne(r => r.User) 
+                .WithMany()
+                .HasForeignKey(r => r.UserId) 
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
