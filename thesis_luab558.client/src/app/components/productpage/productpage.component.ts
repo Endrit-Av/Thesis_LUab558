@@ -67,7 +67,6 @@ export class ProductPageComponent implements OnInit {
     this.productService.getProductByAttributes(productName, color, ram, memory).subscribe({
       next: data => {
         this.product = data;
-
         this.product.shareUrl = window.location.href
 
         this.loadImages(data.productName, data.color);
