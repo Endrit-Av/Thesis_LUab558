@@ -24,7 +24,6 @@
     </button>
   </div>
 
-
   <div class="container mt-5">
     <div *ngFor="let category of categories" class="category-section">
       <h2 class="category-title text-center">{{ category }}s</h2>
@@ -46,7 +45,6 @@
               <p class="card-text">{{ product.description }}</p>
             </div>
             <div class="card-footer text-center">
-              <!--<button class="btn btn-dark" [routerLink]="['/product', product.productId]">Zum Produkt</button>-->
               <button class="btn btn-dark"
                       [routerLink]="['/product', product.productName, product.color, product.ram, product.physicalMemory]">
                 Zum Produkt

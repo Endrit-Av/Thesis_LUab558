@@ -40,6 +40,7 @@ export class MainpageComponent implements OnInit {
     this.productService.getProductsByCategory(category).subscribe({
       next: data => {
         this.products[category] = data;
+
       },
       error: error => {
         console.error(`Fehler beim Laden der Produkte für Kategorie ${category}:`, error);
