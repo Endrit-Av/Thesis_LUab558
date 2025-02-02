@@ -16,23 +16,19 @@ import { translateColor } from '../../utils/color-translator';
 export class ProductPageComponent implements OnInit {
   product: any;
 
-  //Karousel
   images: any[] = [];
   currentIndex: number = 0;
 
-  //Eigenschaftsbuttons
   availableColors: string[] = [];
   availableRam: number[] = [];
   availableMemory: number[] = [];
 
-  //Reviewsabschnitt
   reviews: any[] = [];
   averageRating: number = 0;
   totalReviews: number = 0;
-  stars: number[] = [1, 2, 3, 4, 5]; // Für die Sterneanzeige
+  stars: number[] = [1, 2, 3, 4, 5];
   popupVisible: boolean = false;
   starRatings: { stars: number; percentage: number }[] = [];
-  //allReviewsLink: string = ''; //Für Potenzielle ReviewPage
 
   constructor(
     private route: ActivatedRoute,
@@ -57,59 +53,56 @@ export class ProductPageComponent implements OnInit {
   }
 
   loadImages(productName: string, color: string): void {
-    this.imageService.getImagesByAttributes(productName, color).subscribe(
-      (data) => {
+    this.imageService.getImagesByAttributes(productName, color).subscribe({
+      next: data => {
         this.images = data;
       },
-      (error) => {
+      error: error => {
         console.error('Fehler beim Laden der Bilder:', error);
       }
-    );
+    });
   }
 
   loadProductByAttributes(productName: string, color: string, ram: number, memory: number): void {
-    this.productService.getProductByAttributes(productName, color, ram, memory).subscribe(
-      (data) => {
+    this.productService.getProductByAttributes(productName, color, ram, memory).subscribe({
+      next: data => {
         this.product = data;
 
         this.product.shareUrl = window.location.href
 
-        // Hole die Produkt-ID und lade die Reviews und Sternebewertung
-        const productId = data.productId;
         this.loadImages(data.productName, data.color);
-        this.loadReviewData(productId);
-        this.loadAverageRating(productId);
+        this.loadReviewData(data.productId);
+        this.loadAverageRating(data.productId);
 
-        // Lade die Varianten basierend auf dem Produktnamen
-        this.productService.getProductVariants(this.product.productName).subscribe(
-          (variants) => {
+        this.productService.getProductVariants(this.product.productName).subscribe({
+          next: variants => {
             this.availableColors = variants.availableColors;
-            this.availableRam = variants.availableRam.sort((a: number, b: number) => a - b); //Sortierfunktion --> kleinste zahl als erstes
+            this.availableRam = variants.availableRam.sort((a: number, b: number) => a - b);
             this.availableMemory = variants.availableMemory.sort((a: number, b: number) => a - b);
           },
-          (error) => {
+          error: error => {
             console.error('Fehler beim Laden der Varianten:', error);
           }
-        );
+        });
       },
-      (error) => {
+      error: error => {
         console.error('Fehler beim Laden des Produkts:', error);
       }
-    );
+    });
   }
 
   addToCart(productId: number, productName: string,): void {
     if (this.product.stock > 0) {
-      this.cartService.addToCart(productId).subscribe(
-        () => {
+      this.cartService.addToCart(productId).subscribe({
+        next: () => {
           this.cartService.updateCartCount(); //Updated Warenkorb zähler
           this.product.stock--;
           this.showCartPopup(productName);
         },
-        (error) => {
+        error: error => {
           console.error('Fehler beim Hinzufügen zum Warenkorb:', error);
         }
-      );
+      });
     }
   }
 
@@ -119,10 +112,9 @@ export class ProductPageComponent implements OnInit {
     });
   }
 
-  // Review Logik
   loadReviewData(productId: number): void {
-    this.reviewService.getReviewsByProductId(productId).subscribe(
-      (reviews) => {
+    this.reviewService.getReviewsByProductId(productId).subscribe({
+      next: reviews => {
         const total = reviews.length;
         const ratingsCount = [0, 0, 0, 0, 0];
 
@@ -130,36 +122,31 @@ export class ProductPageComponent implements OnInit {
           ratingsCount[review.rating - 1]++;
         });
 
-        // Berechnung für die Sternebewertung
         this.starRatings = ratingsCount
           .map((count, index) => ({
             stars: index + 1,
             percentage: total > 0 ? Math.round((count / total) * 100) : 0,
           }))
-          .reverse(); // Reihenfolge der Sterne umkehren
+          .reverse();
 
-        // Speichere die Reviews und Anzahl der Bewertungen
         this.reviews = reviews;
         this.totalReviews = total;
-
-        // Falls später eine Review-Seite benötigt wird:
-        // this.allReviewsLink = `/reviews/${productId}`;
       },
-      (error) => {
+      error: error => {
         console.error('Fehler beim Laden der Reviews:', error);
       }
-    );
+    });
   }
 
   loadAverageRating(productId: number): void {
-    this.reviewService.getAverageRatingByProductId(productId).subscribe(
-      (data) => {
+    this.reviewService.getAverageRatingByProductId(productId).subscribe({
+      next: (data) => {
         this.averageRating = data.averageRating;
       },
-      (error) => {
+      error: (error) => {
         console.error('Fehler beim Laden der Durchschnittsbewertung:', error);
       }
-    );
+    });
   }
 
   showPopup(): void {
@@ -177,7 +164,7 @@ export class ProductPageComponent implements OnInit {
       popup.style.display = 'block';
       setTimeout(() => {
         popup.style.display = 'none';
-      }, 3000); // Popup nach 3 Sekunden ausblenden
+      }, 3000);
     }
   }
 
@@ -187,7 +174,7 @@ export class ProductPageComponent implements OnInit {
       popup.style.display = 'block';
       setTimeout(() => {
         popup.style.display = 'none';
-      }, 3000); // Popup nach 3 Sekunden ausblenden
+      }, 3000);
     }
   }
 

@@ -21,15 +21,15 @@ export class CartComponent implements OnInit {
   }
 
   loadCartItems(): void {
-    this.cartService.getCartItems().subscribe(
-      (items) => {
+    this.cartService.getCartItems().subscribe({
+      next: items => {
         this.cartItems = items;
         this.calculateTotalPrice();
       },
-      (error) => {
+      error: error => {
         console.error('Fehler beim Laden der Warenkorbdaten:', error);
       }
-    );
+    });
   }
 
   calculateTotalPrice(): void {
