@@ -7,11 +7,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class CartService {
   private apiUrl = '/api/cart';
-  private cartCount = new BehaviorSubject<number>(0); // Artikelanzahl im Warenkorb
+  private cartCount = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCount.asObservable();
 
   constructor(private http: HttpClient) {
     this.updateCartCountOnInit();
+  }
+
+  updateCartCount(): void {
+    this.getCartItems().subscribe(items => {
+      const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+      this.cartCount.next(totalQuantity);
+    });
+  }
+
+  private updateCartCountOnInit(): void {
+    this.updateCartCount();
   }
 
   getCartItems(): Observable<any[]> {
@@ -35,16 +46,4 @@ export class CartService {
     return this.http.put<void>(`${this.apiUrl}/decrease?productId=${productId}`, {});
   }
 
-  //Header zähler für den Warenkorb, kann nicht über Komponenten geteilt werden
-  //Komponenten sind keine Services und können daher nicht als Dependency Injection Provider verwendet werden. Stattdessen sollten Daten über Services geteilt werden.
-  updateCartCount(): void {
-    this.getCartItems().subscribe(items => {
-      const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-      this.cartCount.next(totalQuantity);
-    });
-  }
-
-  private updateCartCountOnInit(): void {
-    this.updateCartCount();
-  }
 }
