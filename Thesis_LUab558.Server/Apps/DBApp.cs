@@ -9,6 +9,7 @@ namespace Thesis_LUab558.Server.Apps
             string databaseName = "LUab558_Thesis";
             string userName = "postgres";
             string password = "180499";
+            string masterConnectionString = $"Host=localhost;Username={userName};Password={password};Database=postgres";
             string dbConnectionString = $"Host=localhost;Username={userName};Password={password};Database={databaseName}";
             string schemaName = "633867";
 
@@ -16,26 +17,26 @@ namespace Thesis_LUab558.Server.Apps
             {
                 //Datenbank einmalig erstellen - diesen Teil nach dem ersten Durchlauf auskommentieren
 
-                //using (var connection = new NpgsqlConnection(dbConnectionString))
-                //{
-                //    connection.Open();
+                using (var connection = new NpgsqlConnection(masterConnectionString))
+                {
+                    connection.Open();
 
-                //    Console.WriteLine($"Datenbank '{databaseName}' löschen, falls sie existiert...");
-                //    string dropDbQuery = $@"DROP DATABASE IF EXISTS ""{databaseName}"";";
-                //    using (var dropDbCommand = new NpgsqlCommand(dropDbQuery, connection))
-                //    {
-                //        dropDbCommand.ExecuteNonQuery();
-                //        Console.WriteLine($"Datenbank '{databaseName}' wurde gelöscht (falls vorhanden).");
-                //    }
+                    Console.WriteLine($"Datenbank '{databaseName}' löschen, falls sie existiert...");
+                    string dropDbQuery = $@"DROP DATABASE IF EXISTS ""{databaseName}"";";
+                    using (var dropDbCommand = new NpgsqlCommand(dropDbQuery, connection))
+                    {
+                        dropDbCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Datenbank '{databaseName}' wurde gelöscht (falls vorhanden).");
+                    }
 
-                //    Console.WriteLine($"Erstelle Datenbank '{databaseName}'...");
-                //    string createDbQuery = $@"CREATE DATABASE ""{databaseName}"";";
-                //    using (var createDbCommand = new NpgsqlCommand(createDbQuery, connection))
-                //    {
-                //        createDbCommand.ExecuteNonQuery();
-                //        Console.WriteLine($"Datenbank '{databaseName}' wurde erfolgreich erstellt.");
-                //    }
-                //}
+                    Console.WriteLine($"Erstelle Datenbank '{databaseName}'...");
+                    string createDbQuery = $@"CREATE DATABASE ""{databaseName}"";";
+                    using (var createDbCommand = new NpgsqlCommand(createDbQuery, connection))
+                    {
+                        createDbCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Datenbank '{databaseName}' wurde erfolgreich erstellt.");
+                    }
+                }
 
 
                 using (var dbConnection = new NpgsqlConnection(dbConnectionString))

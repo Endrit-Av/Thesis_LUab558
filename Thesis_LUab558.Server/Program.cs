@@ -4,7 +4,7 @@ using Thesis_LUab558.Server.Data;
 using Thesis_LUab558.Server.Mappings;
 using Thesis_LUab558.Server.Services;
 
-bool runDbSetup = false; // Auf false setzen nach einmaligen Ausführen.
+bool runDbSetup = true; // Auf false setzen nach einmaligen Ausführen.
 
 if (runDbSetup)
 {
