@@ -1,7 +1,17 @@
 using Microsoft.EntityFrameworkCore;
+using Thesis_LUab558.Server.Apps;
 using Thesis_LUab558.Server.Data;
 using Thesis_LUab558.Server.Mappings;
 using Thesis_LUab558.Server.Services;
+
+bool runDbSetup = false; // Auf false setzen nach einmaligen Ausführen.
+
+if (runDbSetup)
+{
+    Console.WriteLine("Starte einmalige Datenbank-Initialisierung...");
+    DBApp.InitializeDatabase();
+    Console.WriteLine("Datenbank-Initialisierung abgeschlossen.");
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,24 +47,22 @@ var app = builder.Build();
 app.UseDefaultFiles();
 app.MapStaticAssets();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.MapOpenApi();
-    app.UseDeveloperExceptionPage(); // Für bessere Fehlermeldungen
-    app.UseSwagger(); // Aktiviert Swagger in der Entwicklungsumgebung
-    app.UseSwaggerUI(); // Aktiviert die Swagger-Benutzeroberfläche
+    app.UseDeveloperExceptionPage(); 
+    app.UseSwagger(); 
+    app.UseSwaggerUI(); 
 }
 
-app.UseCors("FrontendPolicy"); // Spezifische CORS-Policy anwenden
+app.UseCors("FrontendPolicy");
 
-app.UseResponseCaching(); //Aktiviert Caching --> nach Cors implementieren
+app.UseResponseCaching();
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseStaticFiles(); // Aktiviert die Bereitstellung von statischen Dateien aus wwwroot
+app.UseStaticFiles();
 
 app.MapControllers();
 

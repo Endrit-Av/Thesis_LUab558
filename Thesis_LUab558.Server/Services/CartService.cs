@@ -32,7 +32,7 @@ namespace Thesis_LUab558.Server.Services
             {
                 cartItem = new Cart
                 {
-                    UserId = 0,
+                    UserId = 1,
                     ProductId = productId,
                     Quantity = 1,
                     AddedToCartAt = DateTime.UtcNow
@@ -53,7 +53,7 @@ namespace Thesis_LUab558.Server.Services
 
         public async Task RemoveFromCartAsync(int productId)
         {
-            var cartItem = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == productId && c.UserId == 0);
+            var cartItem = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == productId && c.UserId == 1);
 
             if (cartItem == null)
             {
