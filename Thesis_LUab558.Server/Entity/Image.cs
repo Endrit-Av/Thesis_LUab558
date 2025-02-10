@@ -6,7 +6,7 @@ namespace Thesis_LUab558.Server.Entity
     public class Image
     {
         [Column("image_id")]
-        public int ImageId { get; set; } // Primärschlüssel
+        public int ImageId { get; set; }
 
         [Column("product_id")]
         public int ProductId { get; set; }

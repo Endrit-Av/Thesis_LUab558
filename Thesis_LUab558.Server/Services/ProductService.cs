@@ -87,7 +87,7 @@ namespace Thesis_LUab558.Server.Services
 
             if (product == null)
             {
-                throw new KeyNotFoundException("Das angeforderte Produkt wurde nicht gefunden.");
+                throw new Exception("Das angeforderte Produkt wurde nicht gefunden.");
             }
 
             var productDto = _mapper.Map<ProductDto>(product);

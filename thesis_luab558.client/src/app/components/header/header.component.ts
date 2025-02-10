@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
 
     if (this.email && this.password) {
       console.log('Login mit', this.email, this.password);
-      this.togglePopup(); // Popup schließen
+      this.togglePopup();
     }
   }
 }

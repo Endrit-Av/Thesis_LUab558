@@ -8,7 +8,7 @@ namespace Thesis_LUab558.Server.Entity
     {
         [Key]
         [Column("item_id")]
-        public int ItemId { get; set; } // Primärschlüssel
+        public int ItemId { get; set; }
 
         [Column("invoice_id")]
         public int InvoiceId { get; set; }

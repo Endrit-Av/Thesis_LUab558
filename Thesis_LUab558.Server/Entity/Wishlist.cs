@@ -6,7 +6,7 @@ namespace Thesis_LUab558.Server.Entity
     public class Wishlist
     {
         [Column("wishlist_id")]
-        public int WishlistId { get; set; } // Primärschlüssel
+        public int WishlistId { get; set; }
 
         [Column("user_id")]
         public int UserId { get; set; }

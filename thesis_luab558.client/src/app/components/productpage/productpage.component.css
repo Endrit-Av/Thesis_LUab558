@@ -13,9 +13,8 @@
     max-height: 400px;
     margin: 0 auto;
     width: auto;
-
-    height: 400px; /* Feste Höhe */
-    object-fit: contain; /* Auf gegebenen Maßen skalieren */
+    height: 400px;
+    object-fit: contain;
   }
 
 .carousel-control-prev, .carousel-control-next {
@@ -91,15 +90,15 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Halbtransparenter Hintergrund */
-  z-index: 999; /* Popup bleibt über allem */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .popup {
-  z-index: 1000; /* Popup selbst bleibt vor dem Overlay */
+  z-index: 1000;
   background-color: white;
   border-radius: 10px;
   padding: 20px;
@@ -181,14 +180,14 @@ progress::-webkit-progress-value {
 
 .star-rating {
   line-height: 27px;
-  font-size: 1.25em; /* Größere Sterne */
+  font-size: 1.25em;
 }
 
 .star-rating .fa-star {
-  color: black; /* Inaktive Sterne */
+  color: black;
   margin-right: 3px;
 }
 
   .star-rating .fa-star.checked {
-    color: orange; /* Aktive Sterne */
+    color: orange;
   }

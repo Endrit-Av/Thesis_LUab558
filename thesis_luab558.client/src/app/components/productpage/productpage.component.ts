@@ -94,7 +94,7 @@ export class ProductPageComponent implements OnInit {
     if (this.product.stock > 0) {
       this.cartService.addToCart(productId).subscribe({
         next: () => {
-          this.cartService.updateCartCount(); //Updated Warenkorb zähler
+          this.cartService.updateCartCount();
           this.product.stock--;
           this.showCartPopup(productName);
         },

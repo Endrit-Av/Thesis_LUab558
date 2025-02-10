@@ -6,7 +6,7 @@ namespace Thesis_LUab558.Server.Entity
     public class User
     {
         [Column("user_id")]
-        public int UserId { get; set; } // Primärschlüssel
+        public int UserId { get; set; }
 
         [Column("first_name")]
         public string FirstName { get; set; }

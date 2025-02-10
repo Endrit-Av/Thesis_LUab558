@@ -6,7 +6,7 @@ namespace Thesis_LUab558.Server.Entity
     public class Cart
     {
         [Column("cart_id")]
-        public int CartId { get; set; } // cart_id
+        public int CartId { get; set; }
 
         [Column("user_id")]
         public int UserId { get; set; }
@@ -20,7 +20,6 @@ namespace Thesis_LUab558.Server.Entity
         [Column("added_to_cart_at")]
         public DateTime AddedToCartAt { get; set; }
 
-        // Navigationseigenschaft für Product
         [ForeignKey("ProductId")]
         public Product? Product { get; set; }
     }

@@ -6,7 +6,7 @@ namespace Thesis_LUab558.Server.Entity
     public class Review
     {
         [Column("review_id")]
-        public int ReviewId { get; set; } // Primärschlüssel
+        public int ReviewId { get; set; }
 
         [Column("user_id")]
         public int UserId { get; set; }

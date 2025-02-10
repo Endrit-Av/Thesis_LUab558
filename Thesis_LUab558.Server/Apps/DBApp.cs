@@ -15,8 +15,6 @@ namespace Thesis_LUab558.Server.Apps
 
             try
             {
-                //Datenbank einmalig erstellen - diesen Teil nach dem ersten Durchlauf auskommentieren
-
                 using (var connection = new NpgsqlConnection(masterConnectionString))
                 {
                     connection.Open();
@@ -83,7 +81,6 @@ namespace Thesis_LUab558.Server.Apps
 
         static void DeleteTables(NpgsqlConnection connection, string schemaName)
         {
-            // Tabellen in umgekehrter Reihenfolge löschen (relationale Abhängigkeiten beachten)
             string[] dropTableQueries = {
                         $@"DROP TABLE IF EXISTS ""{schemaName}"".""invoice_items"";",
                         $@"DROP TABLE IF EXISTS ""{schemaName}"".""invoice_details"";",
@@ -211,7 +208,6 @@ namespace Thesis_LUab558.Server.Apps
 
         static void InsertUsers(NpgsqlConnection connection, string schemaName)
         {
-            // Arrays mit Testdaten
             var firstNames = new List<string> { "Florian", "Endrit", "Florian", "Vanessa", "Max", "Anna", "Michael", "Sophie", "Patrick", "Laura", "David", "Lisa", "Paul" };
             var lastNames = new List<string> { "Straßner", "Avdulli", "Neumann", "Müller", "Schmidt", "Fischer", "Meyers", "Star", "Star", "Hoffmann", "Meyer", "Koch", "Wasser" };
             var streets = new List<string> { "Im Ring", "Im Ring", "Im Ring", "Mutterstraße", "Hauptstraße", "Seestraße", "Waldweg", "Rosenweg", "An der Blies", "Ernst-Boehe-Straße", "Straßenstraße", "Straußenstraße", "Teststraße" };
@@ -628,7 +624,7 @@ namespace Thesis_LUab558.Server.Apps
 
         private static void FillAllPaths(Dictionary<string, int> allPaths, string brand, string productName, string color, int productId)
         {
-            // Passe den Produktnamen für den Dateipfad an
+            // Passt den Produktnamen für den Dateipfad an
             string adjustedProductName = AdjustProductName(brand, productName);
 
             int quantity = CheckImageQuantity(brand, adjustedProductName, color);
@@ -667,7 +663,7 @@ namespace Thesis_LUab558.Server.Apps
             // Falls "Galaxy" im Produktnamen enthalten ist, entfernen
             if (brand.Equals("Samsung", StringComparison.OrdinalIgnoreCase))
             {
-                return productName.Replace("Galaxy ", ""); // Entferne "Galaxy "
+                return productName.Replace("Galaxy ", "");
             }
 
             // Für andere Marken keine Anpassung
@@ -679,7 +675,7 @@ namespace Thesis_LUab558.Server.Apps
             int index = 0;
             string basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "Thesis_LUab558.Server", "wwwroot", "Images", "Products");
 
-            for (int i = 1; i <= 10; i++) // Maximal 10 Bilder + Main-Bild
+            for (int i = 1; i <= 10; i++)
             {
                 string relativePath = Path.Combine(basePath, brand, $"{productName}_{color}_{i}.jpeg");
 

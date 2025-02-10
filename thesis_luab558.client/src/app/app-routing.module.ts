@@ -8,7 +8,7 @@ import { ProductPageComponent } from './components/productpage/productpage.compo
 import { CartComponent } from './components/cart/cart.component';
 
 const routes: Routes = [
-  { path: '', component: MainpageComponent }, // Standardroute
+  { path: '', component: MainpageComponent },
   { path: 'mainpage', component: MainpageComponent },
   { path: 'conditions', component: ConditionsComponent },
   { path: 'data-protection', component: DataProtectionComponent },

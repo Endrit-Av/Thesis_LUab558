@@ -5,13 +5,13 @@ img:hover {
 }
 
 .card {
-  min-height: 200px; /* Feste Mindesthöhe für die Karten */
+  min-height: 200px;
 }
 
   .card img {
-    width: 150px; /* Feste Breite */
-    height: 150px; /* Feste Höhe */
-    object-fit: contain; /* Bilder skalieren und Seitenverhältnis beibehalten */
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
   }
 
 .btn-block {
