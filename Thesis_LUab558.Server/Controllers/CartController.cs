@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Thesis_LUab558.Server.DTO;
 using Thesis_LUab558.Server.Services;
 
 namespace Thesis_LUab558.Server.Controllers
@@ -15,6 +16,8 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddToCart(int productId)
         {
             try
@@ -29,6 +32,8 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpDelete("remove")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RemoveFromCart(int productId)
         {
             try
@@ -43,10 +48,35 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpGet("all")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CartDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCartItems()
         {
-            var cartItems = await _cartService.GetCartItemsAsync();
-            return Ok(cartItems);
+            try
+            {
+                var cartItems = await _cartService.GetCartItemsAsync();
+                return Ok(cartItems);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("decrease")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DecreaseQuantity(int productId)
+        {
+            try
+            {
+                var updatedCartItem = await _cartService.DecreaseQuantityAsync(productId);
+                return Ok(updatedCartItem);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

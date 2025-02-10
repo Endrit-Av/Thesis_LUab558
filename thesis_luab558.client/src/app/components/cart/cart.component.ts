@@ -43,22 +43,25 @@ export class CartComponent implements OnInit {
 
   increaseQuantity(item: any): void {
     if (item.product.stock > 0) {
-      item.quantity++;
-      item.product.stock--;
-      this.calculateTotalPrice();
+      this.cartService.increaseQuantity(item.product.productId).subscribe(() => {
+        item.quantity++;
+        item.product.stock--;
+        this.calculateTotalPrice();
+      });
     } else {
       console.warn('Nicht genügend Vorrat vorhanden!');
     }
   }
 
   decreaseQuantity(item: any): void {
-    item.quantity--;
-    item.product.stock++;
-
-    if (item.quantity < 1) {
-      this.removeFromCart(item.productId); // Ruft die removeFromCart-Methode auf wenn quantity unter 1 geht
+    if (item.quantity > 1) {
+      this.cartService.decreaseQuantity(item.product.productId).subscribe(() => {
+        item.quantity--;
+        item.product.stock++;
+        this.calculateTotalPrice();
+      });
     } else {
-      this.calculateTotalPrice();
+      this.removeFromCart(item.productId);
     }
   }
 

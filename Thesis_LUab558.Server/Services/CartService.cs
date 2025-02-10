@@ -93,5 +93,32 @@ namespace Thesis_LUab558.Server.Services
             return $"https://localhost:7219/Images/ProductMain/{sanitizedProductName.Replace(" ", "_").ToLower()}_{color.ToLower()}_main.jpeg";
         }
 
+        public async Task<CartDto> DecreaseQuantityAsync(int productId)
+        {
+            var cartItem = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == productId && c.UserId == 1);
+
+            if (cartItem == null)
+            {
+                throw new InvalidOperationException("Produkt befindet sich nicht im Warenkorb.");
+            }
+
+            if (cartItem.Quantity > 1)
+            {
+                cartItem.Quantity--;
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
+                if (product != null)
+                {
+                    product.Stock++;
+                }
+            }
+            else
+            {
+                await RemoveFromCartAsync(productId);
+                return null;
+            }
+
+            await _context.SaveChangesAsync();
+            return _mapper.Map<CartDto>(cartItem);
+        }
     }
 }

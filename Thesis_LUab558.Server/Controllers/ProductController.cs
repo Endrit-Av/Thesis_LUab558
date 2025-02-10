@@ -19,17 +19,18 @@ namespace Thesis_LUab558.Server.Controllers
         [HttpGet("categories")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)] // Cache für 5 Minuten
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCategories()
         {
             var categories = await _productService.GetCategoriesAsync();
+            if (categories == null) return NotFound("Keine Kategorien gefunden.");
             return Ok(categories);
         }
 
         [HttpGet("{category}")]
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDto>))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductsByCategory(string category)
         {
             var products = await _productService.GetProductsByCategoryAsync(category);
