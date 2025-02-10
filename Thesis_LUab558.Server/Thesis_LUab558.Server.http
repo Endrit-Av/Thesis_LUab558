@@ -1,19 +1,49 @@
-@Thesis_LUab558.Server_HostAddress = http://localhost:5218
-
-GET {{Thesis_LUab558.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
+@Thesis_LUab558.Server_HostAddress = https://localhost:7219/api
 
 ### Test für Produkte
-GET https://localhost:7219/api/test/products/first10
+GET {{Thesis_LUab558.Server_HostAddress}}/Product/categories
 Content-Type: application/json
 
-### Test für Benutzer
-GET https://localhost:7219/api/test/users/first10
+### Test für Produkte nach Kategorie
+GET {{Thesis_LUab558.Server_HostAddress}}/Product/Smartphone
 Content-Type: application/json
 
-### Test für Bewertungen
-GET https://localhost:7219/api/test/reviews/first10
+### Test für Produktvarianten
+GET {{Thesis_LUab558.Server_HostAddress}}/Product/variants/iPhone%2014%20Pro
 Content-Type: application/json
 
+### Test für Produktdetails
+GET {{Thesis_LUab558.Server_HostAddress}}/Product/details?productName=iPhone%2014%20Pro&color=Lila&ram=6&physicalMemory=128
+Content-Type: application/json
+
+### Test für Warenkorb - Produkte abrufen
+GET {{Thesis_LUab558.Server_HostAddress}}/Cart/all
+Content-Type: application/json
+
+### Test für Warenkorb - Produkt hinzufügen
+POST {{Thesis_LUab558.Server_HostAddress}}/Cart/add?productId=3
+Content-Type: application/json
+
+### Test für Warenkorb - Produkt entfernen
+DELETE {{Thesis_LUab558.Server_HostAddress}}/Cart/remove?productId=3
+Content-Type: application/json
+
+### Test für Warenkorb - Menge reduzieren
+PUT {{Thesis_LUab558.Server_HostAddress}}/Cart/decrease?productId=3
+Content-Type: application/json
+
+### Test für Bewertungen eines Produkts
+GET {{Thesis_LUab558.Server_HostAddress}}/Review/3
+Content-Type: application/json
+
+### Test für durchschnittliche Bewertung eines Produkts
+GET {{Thesis_LUab558.Server_HostAddress}}/Review/average-rating/3
+Content-Type: application/json
+
+### Test für Bilder eines Produkts
+GET {{Thesis_LUab558.Server_HostAddress}}/Image/attributes?productName=iPhone%2014%20Pro&color=Lila
+Content-Type: application/json
+
+### Test für Banner-Bilder
+GET {{Thesis_LUab558.Server_HostAddress}}/Image/banner-images
+Content-Type: application/json
