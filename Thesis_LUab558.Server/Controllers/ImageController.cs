@@ -22,6 +22,7 @@ namespace Thesis_LUab558.Server.Controllers
         public async Task<IActionResult> GetImagesByAttributes(string productName, string color)
         {
             var images = await _imageService.GetImagesByProductAttributesAsync(productName, color);
+            if (images == null) return NotFound("Keine Bilder gefunden.");
             return Ok(images);
         }
 
@@ -39,11 +40,11 @@ namespace Thesis_LUab558.Server.Controllers
             }
             catch (DirectoryNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ein Fehler ist aufgetreten: " + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ein Fehler ist aufgetreten.", details = ex.Message });
             }
         }
     }

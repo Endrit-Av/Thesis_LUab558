@@ -49,7 +49,7 @@ namespace Thesis_LUab558.Server.Controllers
 
         [HttpGet("all")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CartDto>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCartItems()
         {
             try
@@ -57,9 +57,9 @@ namespace Thesis_LUab558.Server.Controllers
                 var cartItems = await _cartService.GetCartItemsAsync();
                 return Ok(cartItems);
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
-                return NotFound(new { message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ein Fehler ist aufgetreten.", details = ex.Message });
             }
         }
 

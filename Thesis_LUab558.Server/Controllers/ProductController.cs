@@ -17,7 +17,7 @@ namespace Thesis_LUab558.Server.Controllers
         }
 
         [HttpGet("categories")]
-        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)] // Cache für 5 Minuten
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client, NoStore = false)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCategories()
